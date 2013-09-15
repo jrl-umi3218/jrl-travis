@@ -67,7 +67,7 @@ Applications, Personal Access Token and click on `Create New
 Token`. You can then use the `travis` command-line client to encrypt
 the environment variable:
 
-   $ travis encrypt GH_TOKEN=<YOUR OAUTH TOKEN> --add
+     $ travis encrypt GH_TOKEN=<YOUR OAUTH TOKEN> --add
 
 This has to be run in the project root-level directory. Do _not_ copy
 encrypted strings from one project to another. Each repository has its
@@ -108,7 +108,7 @@ environment variable while the passphrase is stored in the
 `GNUPG_PASSPHRASE` secured environment variable. To generate the
 entry, run the following command:
 
-   $ travis encrypt GNUPG_PASSPHRASE=<YOUR KEY PASSPHRASE> --add
+    $ travis encrypt GNUPG_PASSPHRASE=<YOUR KEY PASSPHRASE> --add
 
 
 ### After Success
