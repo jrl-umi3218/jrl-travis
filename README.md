@@ -190,5 +190,8 @@ Authors and Credits
 
  * Thomas Moulard <thomas.moulard@gmail.com> (maintainer)
 
-We would like to thank very much [Travis](http://www.travis.org) for
-their efforts and their will to support the Open Source community.
+
+
+We would like to express our gratitude to [Travis
+CI](http://www.travis-ci.org) for building this incredible continuous
+integration tool.
