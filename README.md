@@ -63,18 +63,25 @@ the package, installing it and running the test suite.
 
 The last step is uploading the documentation in case of success. To
 achieve this, the Travis build machine must obtain write access to the
-project repository. To do so, you must put an OAuth token into the
-`GH_TOKEN` environment variable. Go to your account settings,
-Applications, Personal Access Token and click on `Create New
-Token`. You can then use the `travis` command-line client to encrypt
-the environment variable:
+project repository. To do so, you must provide a push-capable URI in
+the `GIT_PUSH_URI`. One way is to use a OAuth token. Go to your
+account settings, Applications, Personal Access Token and click on
+`Create New Token`. You can then use the `travis` command-line client
+to encrypt the environment variable:
 
-     $ travis encrypt GH_TOKEN=<YOUR OAUTH TOKEN> --add
+     $ travis encrypt GH_PUSH_URI=https://<USERNAME>@<YOUR OAUTH TOKEN>:<ORGANIZATION>/<REPO> --add
 
 This has to be run in the project root-level directory. Do _not_ copy
 encrypted strings from one project to another. Each repository has its
 own key a repository B cannot unencrypt a secure variable encrypted in
 repository A. Redo the operation for each repository.
+
+Any other push-capable URI can work but it must not trigger an
+interactive behavior (i.e. waiting for the user to input its password
+for instance). _Never_ use directly your account password as this
+password may be leaked in the Travis log if a bug in these scripts
+appear. It would compromise your entire account. On the opposite, it
+is easy to revoke an OAuth token.
 
 _Be careful:_ the `gh-pages` must never run the build in this
 repository. As we are committing to this branch, using these scripts
