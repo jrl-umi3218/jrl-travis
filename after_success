@@ -1,5 +1,5 @@
 #!/bin/sh
-set -ev
+set -e
 
 # Directories.
 root_dir=`pwd`
