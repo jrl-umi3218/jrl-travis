@@ -72,7 +72,21 @@ if [ -d debian ]; then
     # Speed up pbuilder.
     echo "echo \"force-unsafe-io\"" > /etc/dpkg/dpkg.cfg.d/02apt-speedup | \
 	git-pbuilder login --save-after-exec
+
+    # Add additional PPAs
+    for ppa in ${DEBIAN_PPA}; do
+	echo "sudo apt-add-repository ppa:${ppa}" | \
+	    git-pbuilder login --save-after-exec
+    done
+
+    git-pbuilder update
 else
+    # Add additional PPAs
+    for ppa in ${MASTER_PPA}; do
+	echo "sudo apt-add-repository ppa:${ppa}" | \
+	    git-pbuilder login --save-after-exec
+    done
+
     # ...otherwise we install the dependencies explicitly.
     sudo apt-get install -qq ${APT_DEPENDENCIES}
     sudo pip install cpp-coveralls --use-mirrors

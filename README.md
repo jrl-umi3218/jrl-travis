@@ -49,6 +49,8 @@ dependencies:
    you have to list your dependencies in the correct order if some of the
    dependencies depend on other packages compiled from source which must
    be installed first.
+ * `MASTER_PPA` can contain a list of PPA which are needed for this project
+   to compile.
 
 
 ### Build
@@ -90,6 +92,15 @@ matching the current target distribution. The target distribution is
 controlled by the `DIST` environment variable. This environment
 variable is put into the build matrix so that we can build the
 software for each version of Debian and Ubuntu separately.
+
+`DEBIAN_PPA` can contain a list of PPA which are needed for this
+project to compile. This will setup the PPA _inside_ the pbuilder
+sandbox.
+
+All dependencies are installed using `apt-get install`. This is done
+automatically by using the `Build-Depends` field of the
+`debian/control` file.
+
 
 ### Build
 
