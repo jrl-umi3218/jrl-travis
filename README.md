@@ -60,7 +60,7 @@ the package, installing it and running the test suite.
 ### After success
 
 The last step is uploading the documentation in case of success. To
-achive this, the Travis build machine must obtain write access to the
+achieve this, the Travis build machine must obtain write access to the
 project repository. To do so, you must put an OAuth token into the
 `GH_TOKEN` environment variable. Go to your account settings,
 Applications, Personal Access Token and click on `Create New
@@ -165,8 +165,7 @@ The whole content of this repository is licensed under BSD. See
 Authors and Credits
 -------------------
 
- * Thomas Moulard <thomas.moulard@gmail.com>
-   Maintainer
+ * Thomas Moulard <thomas.moulard@gmail.com> (maintainer)
 
 We would like to thank very much [Travis](http://www.travis.org) for
-their effort and their will to support the Open Source community.
+their efforts and their will to support the Open Source community.
