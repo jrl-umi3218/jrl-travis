@@ -1,6 +1,11 @@
 # -*- sh -*-
 DIST="@DIST@"
 
+# Avoid using ccache as it may cause permission issues.
+CC=gcc
+CXX=g++
+CCACHE_DISABLE=1
+
 # Codenames for Debian suites according to their alias. Update these when
 # needed.
 UNSTABLE_CODENAME="sid"
