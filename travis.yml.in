@@ -1,0 +1,29 @@
+language: cpp
+env:
+  global:
+  - @ENCRYPTED_GH_TOKEN@
+  - @ENCRYPTED_GNUPG_PASSPHRASE@
+  - @APT_DEPENDENCIES@
+  - @GIT_DEPENDENCIES@
+  - DEBSIGN_KEYID=5AE5CD75
+  matrix:
+  - DIST=unstable
+  - DIST=saucy
+  - DIST=raring
+  - DIST=quantal
+  - DIST=precise
+notifications:
+  hipchat:
+    rooms:
+      - @HIPCHAT_TOKEN@
+  email:
+  - @EMAIL_ADDRESS@
+branches:
+  only:
+  - master
+  - debian
+script: ./.travis/build
+after_success: ./.travis/after_success
+compiler: gcc
+after_failure: ./.travis/after_failure
+before_install: ./.travis/before_install

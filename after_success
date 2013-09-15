@@ -1,0 +1,25 @@
+#!/bin/sh
+set -ev
+
+# Directories.
+root_dir=`pwd`
+build_dir="/tmp/_travis/build"
+install_dir="/tmp/_travis/install"
+
+if [ -d debian ]; then
+    export GNUPGHOME="$root_dir/.travis/.gnupg"
+    # If the build is a success, upload the source package to Launchpad.
+    if `test x${DIST} = xunstable`; then
+	echo "Debian Sid package. Skipping Launchpad upload..."
+    else
+	dput ppa:${PPA_URI} "$build_dir"/export/*_source.changes
+    fi
+else
+    coveralls						\
+	-e _travis/install				\
+	-e tests
+    git remote set-url origin \
+	https://thomas-moulard:${GH_TOKEN}@github.com/jrl-umi3218/jrl-mathtools.git
+    git fetch origin gh-pages:gh-pages
+    cd _travis/build/doc && ../../../cmake/github/update-doxygen-doc.sh
+fi

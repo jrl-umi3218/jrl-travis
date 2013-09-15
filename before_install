@@ -1,0 +1,84 @@
+#!/bin/sh
+set -ev
+
+# Directories.
+root_dir=`pwd`
+build_dir="/tmp/_travis/build"
+install_dir="/tmp/_travis/install"
+
+# Create layout.
+rm -rf "$build_dir" "$install_dir"
+mkdir -p "$build_dir"
+mkdir -p "$install_dir"
+
+# Setup Git identity.
+git config --global user.name "Thomas Moulard (Travis Automatic Builds)"
+git config --global user.email "thomas.moulard+travis@gmail.com"
+
+# Retrive the submodules.
+git submodule update --init --recursive
+
+# Update the apt local cache.
+sudo apt-get update -qq
+
+
+# build_git_dependency
+# --------------------
+#
+# Build a dependency directly from the Git development tree.
+build_git_dependency()
+{
+    echo "--> Compiling $1"
+    mkdir -p "$build_dir/$1"
+    cd "$build_dir"
+    $git_clone "git://github.com/$1" "$1"
+    cd "$build_dir/$1"
+    cmake . -DCMAKE_INSTALL_PREFIX:STRING="$install_dir"
+    make install
+}
+
+# Check if we are in a debian branch...
+if [ -d debian ]; then
+    echo "Target distribution: ${DIST}"
+    if `test x${DIST} = x`; then
+	echo "distribution is not set"
+	return 1
+    fi
+
+    # Fetch tags to compute the distance between the last release tag
+    # and us.
+    git fetch --tags
+
+    # If we are, we install Debian package development tools and
+    # create a sid pbuilder. Package dependencies will be installed
+    # automatically.
+    sudo apt-get install -qq			\
+	debootstrap devscripts			\
+	git-buildpackage debian-archive-keyring \
+	pkg-kde-tools dput eatmydata
+
+    # Remove previous sandbox.
+    sudo rm -rf /var/cache/pbuilder/base-${DIST}.cow
+
+    # Create a pbuilder sandbox.
+    cp $root_dir/.travis/pbuilderrc $HOME/.pbuilderrc
+    sed -i "s|@DIST@|${DIST}|g" $HOME/.pbuilderrc
+
+    # ccache is not necessary in our case and may cause permission
+    # issues.
+    git-pbuilder create
+    echo "apt-get -y remove ccache" |			\
+	git-pbuilder login --save-after-exec
+    # Speed up pbuilder.
+    echo "echo \"force-unsafe-io\"" > /etc/dpkg/dpkg.cfg.d/02apt-speedup | \
+	git-pbuilder login --save-after-exec
+else
+    # ...otherwise we install the dependencies explicitly.
+    sudo apt-get install -qq ${APT_DEPENDENCIES}
+    sudo pip install cpp-coveralls --use-mirrors
+
+    # and we build directly dependencies from the Git repository
+    for package in ${GIT_DEPENDENCIES}; do
+	build_git_dependency "$package"
+    done
+fi
