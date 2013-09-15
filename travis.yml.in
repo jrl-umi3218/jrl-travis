@@ -1,4 +1,5 @@
 language: cpp
+compiler: gcc
 env:
   global:
   - @ENCRYPTED_GH_TOKEN@
@@ -6,8 +7,7 @@ env:
   - @APT_DEPENDENCIES@
   - @GIT_DEPENDENCIES@
   - DEBSIGN_KEYID=5AE5CD75
-  matrix:
-  - DIST="" # for development branch
+  matrix: # this section is for the Debian branch only
   - DIST=unstable
   - DIST=saucy
   - DIST=raring
@@ -23,8 +23,7 @@ branches:
   only:
   - master
   - debian
-script: ./.travis/build
-after_success: ./.travis/after_success
-compiler: gcc
-after_failure: ./.travis/after_failure
-before_install: ./.travis/before_install
+script: ./.travis/build | sed -e 's|${GNUPG_PASSPHRASE}|\#EDITED\#|g' -e 's|${GH_PUSH_URI}|\#EDITED\#|g'
+after_success: ./.travis/after_success | sed -e 's|${GNUPG_PASSPHRASE}|\#EDITED\#|g' -e 's|${GH_PUSH_URI}|\#EDITED\#|g'
+after_failure: ./.travis/after_failure | sed -e 's|${GNUPG_PASSPHRASE}|\#EDITED\#|g' -e 's|${GH_PUSH_URI}|\#EDITED\#|g'
+before_install: ./.travis/before_install | sed -e 's|${GNUPG_PASSPHRASE}|\#EDITED\#|g' -e 's|${GH_PUSH_URI}|\#EDITED\#|g'
