@@ -33,7 +33,7 @@ else
     # Retrieve last commit of the gh-pages branch.
     git fetch --depth=1 origin gh-pages:gh-pages
     # Update the documentation.
-    cd _travis/build/doc && ../../../cmake/github/update-doxygen-doc.sh
+    cd $build_dir/doc && ../../../cmake/github/update-doxygen-doc.sh
 
     # Push git note indicating success
     cd $root_dir
@@ -43,6 +43,7 @@ else
 	notes_msg="${notes_msg} $package : " $(git rev-parse HEAD) "\n"
     done
     cd $root_dir
+    git fetch --depth=1 origin refs/notes/travis:refs/notes/travis
     git notes --ref=travis add -m "${notes_msg}" HEAD
     git push origin refs/notes/travis
 fi
