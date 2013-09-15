@@ -15,6 +15,11 @@ if [ -d debian ]; then
 	dput ppa:${PPA_URI} "$build_dir"/export/*_source.changes
     fi
 else
+    if [ ! x${DIST} = x ]; then
+	echo "skipping this build"
+	exit 0
+    fi
+
     # Only retrieve data from the test suite run.
     coveralls $build_dir/tests
     # Set the push capable URL.

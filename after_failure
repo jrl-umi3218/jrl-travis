@@ -1,8 +1,19 @@
 #!/bin/sh
 set -e
 
+# Directories.
+root_dir=`pwd`
+build_dir="/tmp/_travis/build"
+install_dir="/tmp/_travis/install"
+
 if [ -d debian ]; then
     true
 else
-    cat `pwd`/_travis/build/tests/*.log
+    if [ ! x${DIST} = x ]; then
+	echo "skipping this build"
+	exit 0
+    fi
+
+    # Dump as much log as we can
+    find $build_dir -name "*.log" | xargs cat
 fi

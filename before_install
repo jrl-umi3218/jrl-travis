@@ -81,6 +81,10 @@ if [ -d debian ]; then
 
     git-pbuilder update
 else
+    if [ ! x${DIST} = x ]; then
+	echo "skipping this build"
+	exit 0
+    fi
     # Add additional PPAs
     for ppa in ${MASTER_PPA}; do
 	echo "sudo apt-add-repository ppa:${ppa}" | \

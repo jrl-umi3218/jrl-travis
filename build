@@ -103,9 +103,9 @@ debian_build_package()
 if [ -d debian ]; then
     debian_build_package
 else
-    if [ x${DIST} = x ]; then
-	build_package
-    else
-	echo "ignore Debian build on this branch"
+    if [ ! x${DIST} = x ]; then
+	echo "skipping this build"
+	exit 0
     fi
+    build_package
 fi
