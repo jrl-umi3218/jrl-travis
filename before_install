@@ -55,7 +55,15 @@ if [ -d debian ]; then
     sudo apt-get install -qq			\
 	debootstrap devscripts			\
 	git-buildpackage debian-archive-keyring \
-	pkg-kde-tools dput eatmydata
+	pkg-kde-tools dput eatmydata ccache
+
+    # Fix ccache use in pbuilder
+    sudo addgroup --system --uid 1234 ccache
+    sudo adduser --quiet --system --gid 1234 --ingroup ccache \
+	--home /var/cache/pbuilder --no-create-home pbuilder
+    sudo mkdir /var/cache/pbuilder/ccache
+    sudo chown pbuilder:ccache /var/cache/pbuilder/ccache
+    sudo chmod g+ws /var/cache/pbuilder/ccache
 
     # Remove previous sandbox.
     sudo rm -rf /var/cache/pbuilder/base-${DIST}.cow
@@ -64,11 +72,6 @@ if [ -d debian ]; then
     cp $root_dir/.travis/pbuilderrc $HOME/.pbuilderrc
     sed -i "s|@DIST@|${DIST}|g" $HOME/.pbuilderrc
 
-    # ccache is not necessary in our case and may cause permission
-    # issues.
-    git-pbuilder create
-    echo "apt-get -y remove ccache" |			\
-	git-pbuilder login --save-after-exec
     # Speed up pbuilder.
     echo "echo \"force-unsafe-io\"" > /etc/dpkg/dpkg.cfg.d/02apt-speedup | \
 	git-pbuilder login --save-after-exec
@@ -79,7 +82,14 @@ if [ -d debian ]; then
 	    git-pbuilder login --save-after-exec
     done
 
+    # Retrieve PPA package list.
     git-pbuilder update
+
+    # ccache is not necessary in our case and may cause permission
+    # issues.
+    git-pbuilder create
+    echo "apt-get -y remove ccache" |			\
+	git-pbuilder login --save-after-exec
 else
     if [ ! x${DIST} = x ]; then
 	echo "skipping this build"
