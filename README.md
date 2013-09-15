@@ -88,6 +88,11 @@ repository. As we are committing to this branch, using these scripts
 on this branch may result in an infinite number of successive build
 triggered by each documentation update.
 
+To finish, a `git notes` is used to annotate the commit with the build
+result. A string containing the commit id of all the Git dependencies
+is computed and inserted into the note so that one can exactly
+retrieve the combinaison of software which allowed a successful build.
+
 
 Debian branch
 -------------
