@@ -15,11 +15,23 @@ if [ -d debian ]; then
 	dput ppa:${PPA_URI} "$build_dir"/export/*_source.changes
     fi
 else
-    coveralls						\
-	-e _travis/install				\
-	-e tests
-    git remote set-url origin \
-	https://thomas-moulard:${GH_TOKEN}@github.com/jrl-umi3218/jrl-mathtools.git
-    git fetch origin gh-pages:gh-pages
+    # Only retrieve data from the test suite run.
+    coveralls $build_dir/tests
+    # Set the push capable URL.
+    git remote set-url origin "${GH_PUSH_URI}"
+    # Retrieve last commit of the gh-pages branch.
+    git fetch --depth=1 origin gh-pages:gh-pages
+    # Update the documentation.
     cd _travis/build/doc && ../../../cmake/github/update-doxygen-doc.sh
+
+    # Push git note indicating success
+    cd $root_dir
+    notes_msg="Successful build.\n----\n\nDependencies commit id:"
+    for package in ${GIT_DEPENDENCIES}; do
+	cd $build_dir/$package
+	notes_msg="${notes_msg} $package : " $(git rev-parse HEAD) "\n"
+    done
+    cd $root_dir
+    git notes --ref=travis add -m "${notes_msg}" HEAD
+    git push origin refs/notes/travis
 fi
