@@ -7,6 +7,12 @@ build_dir="/tmp/_travis/build"
 install_dir="/tmp/_travis/install"
 
 if [ -d debian ]; then
+    if `test x${DIST} = x`; then
+	echo "distribution is not set, skipping this build"
+	exit 0
+    fi
+    echo "Target distribution: ${DIST}"
+
     export GNUPGHOME="$root_dir/.travis/.gnupg"
     # If the build is a success, upload the source package to Launchpad.
     if `test x${DIST} = xunstable`; then

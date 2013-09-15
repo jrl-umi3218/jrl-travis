@@ -39,11 +39,11 @@ build_git_dependency()
 
 # Check if we are in a debian branch...
 if [ -d debian ]; then
-    echo "Target distribution: ${DIST}"
     if `test x${DIST} = x`; then
-	echo "distribution is not set"
-	return 1
+	echo "distribution is not set, skipping this build"
+	exit 0
     fi
+    echo "Target distribution: ${DIST}"
 
     # Fetch tags to compute the distance between the last release tag
     # and us.

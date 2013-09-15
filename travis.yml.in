@@ -7,6 +7,7 @@ env:
   - @GIT_DEPENDENCIES@
   - DEBSIGN_KEYID=5AE5CD75
   matrix:
+  - DIST="" # for development branch
   - DIST=unstable
   - DIST=saucy
   - DIST=raring

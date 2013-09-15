@@ -101,6 +101,11 @@ debian_build_package()
 # Realize a normal build in all branches except the one containing a
 # debian/ folder.
 if [ -d debian ]; then
+    if `test x${DIST} = x`; then
+	echo "distribution is not set, skipping this build"
+	exit 0
+    fi
+    echo "Target distribution: ${DIST}"
     debian_build_package
 else
     if [ ! x${DIST} = x ]; then
