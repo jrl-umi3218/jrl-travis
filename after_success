@@ -44,6 +44,6 @@ else
     done
     cd $root_dir
     git fetch --depth=1 origin refs/notes/travis:refs/notes/travis
-    git notes --ref=travis add -m "${notes_msg}" HEAD
+    git notes --ref=travis add -m "$(echo -e "${notes_msg}")" HEAD
     git push origin refs/notes/travis
 fi
