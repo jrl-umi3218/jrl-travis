@@ -76,7 +76,6 @@ debian_build_package()
 	--git-dist=${DIST}				\
 	--git-pbuilder					\
 	--git-force-create				\
-	--git-verbose					\
 	--git-ignore-new				\
 	--git-retag					\
 	-p\"gpg\\ --passphrase\\ ${GNUPG_PASSPHRASE}\" \
@@ -91,7 +90,6 @@ debian_build_package()
 	--git-tag			\
 	--git-upstream-branch=master	\
 	--git-dist=${DIST}		\
-	--git-verbose			\
 	--git-ignore-new		\
 	--git-retag			\
 	-p\"gpg --passphrase ${GNUPG_PASSPHRASE}\" \
