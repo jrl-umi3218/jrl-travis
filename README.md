@@ -159,7 +159,7 @@ License
 -------
 
 The whole content of this repository is licensed under BSD. See
-[COPYING][] for more information.
+[COPYING](COPYING) for more information.
 
 
 Authors and Credits
