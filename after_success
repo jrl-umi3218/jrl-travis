@@ -33,6 +33,9 @@ else
 	exit 0
     fi
 
+    cd $root_dir
+    HEAD=`git rev-parse HEAD`
+
     # Upload coveralls data.
     if [ x${CC} = xgcc ]; then
 	coveralls -e $install_dir
@@ -57,6 +60,6 @@ else
     done
     cd $root_dir
     git fetch --depth=1 origin refs/notes/travis:refs/notes/travis
-    git notes --ref=travis add -m "$(echo -e "${notes_msg}")" HEAD
-    git push origin refs/notes/travis
+    git notes --ref=travis add -f -m "$(echo -e "${notes_msg}")" $HEAD
+    git push origin refs/notes/travis:refs/notes/travis
 fi
