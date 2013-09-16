@@ -68,8 +68,8 @@ if [ -d debian ]; then
 	pkg-kde-tools dput eatmydata ccache
 
     # Fix ccache use in pbuilder
-    sudo addgroup --system --uid 1234 ccache
-    sudo adduser --quiet --system --gid 1234 --ingroup ccache \
+    sudo addgroup --system --gid 1234 ccache
+    sudo adduser --quiet --system --uid 1234 --ingroup ccache \
 	--home /var/cache/pbuilder --no-create-home pbuilder
     sudo mkdir /var/cache/pbuilder/ccache
     sudo chown pbuilder:ccache /var/cache/pbuilder/ccache
