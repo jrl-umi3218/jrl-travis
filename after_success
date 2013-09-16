@@ -3,8 +3,15 @@ set -e
 
 # Directories.
 root_dir=`pwd`
-build_dir="/tmp/_travis/build"
-install_dir="/tmp/_travis/install"
+
+if [ -d debian ]; then
+    build_dir="/tmp/_travis/build"
+    install_dir="/tmp/_travis/install"
+else
+    build_dir="$root_dir/_travis/build"
+    install_dir="$root_dir/_travis/install"
+fi
+
 
 if [ -d debian ]; then
     if `test x${DIST} = x`; then
@@ -27,13 +34,8 @@ else
     fi
 
     # Upload coveralls data.
-    # Make sure build directory is a subdirectory
-    # of the current directory temporarily to work
-    # around coveralls limitations.
     if [ x${CC} = xgcc ]; then
-	ln -sf $build_dir $root_dir/build
-	coveralls
-	rm -f $root_dir/build
+	coveralls -e $install_dir
     else
 	echo "skipping coveralls upload in non-gcc builds"
     fi

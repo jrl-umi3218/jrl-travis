@@ -3,11 +3,18 @@ set -e
 
 # Directories.
 root_dir=`pwd`
-build_dir="/tmp/_travis/build"
-install_dir="/tmp/_travis/install"
 
 if [ -d debian ]; then
-    true
+    build_dir="/tmp/_travis/build"
+    install_dir="/tmp/_travis/install"
+else
+    build_dir="$root_dir/_travis/build"
+    install_dir="$root_dir/_travis/install"
+fi
+
+
+if [ -d debian ]; then
+    echo "Debian build failed"
 else
     if [ ! x${DIST} = x ]; then
 	echo "skipping this build"

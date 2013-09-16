@@ -3,8 +3,14 @@ set -e
 
 # Directories.
 root_dir=`pwd`
-build_dir="/tmp/_travis/build"
-install_dir="/tmp/_travis/install"
+
+if [ -d debian ]; then
+    build_dir="/tmp/_travis/build"
+    install_dir="/tmp/_travis/install"
+else
+    build_dir="$root_dir/_travis/build"
+    install_dir="$root_dir/_travis/install"
+fi
 
 # Create layout.
 rm -rf "$build_dir" "$install_dir"
