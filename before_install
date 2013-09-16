@@ -53,7 +53,7 @@ if [ -d debian ]; then
 
     # Fetch tags to compute the distance between the last release tag
     # and us.
-    git fetch --tags
+    git fetch --quiet --tags
 
     # If we are, we install Debian package development tools and
     # create a sid pbuilder. Package dependencies will be installed
