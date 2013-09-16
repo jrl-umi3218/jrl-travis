@@ -86,10 +86,7 @@ debian_build_package()
 	--git-ignore-new				\
 	--git-retag					\
 	-p\"gpg\\ --passphrase\\ ${GNUPG_PASSPHRASE}\" \
-	-k${DEBSIGN_KEYID} | \
-	sed -e 's|${GNUPG_PASSPHRASE}|\#EDITED\#|g' \
-	    -e 's|${GH_PUSH_URI}|\#EDITED\#|g' \
-	|| exit 1
+	-k${DEBSIGN_KEYID} || exit 1
 
 
     git-buildpackage			\
@@ -105,10 +102,7 @@ debian_build_package()
 	--git-retag			\
 	-p\"gpg --passphrase ${GNUPG_PASSPHRASE}\" \
 	-k${DEBSIGN_KEYID} \
-	-S -sa | \
-	sed -e 's|${GNUPG_PASSPHRASE}|\#EDITED\#|g'\
-            -e 's|${GH_PUSH_URI}|\#EDITED\#|g' \
-	|| exit 1
+	-S -sa || exit 1
 }
 
 
