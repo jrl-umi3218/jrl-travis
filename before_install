@@ -71,9 +71,9 @@ if [ -d debian ]; then
     sudo addgroup --system --gid 1234 ccache
     sudo adduser --quiet --system --uid 1234 --ingroup ccache \
 	--home /var/cache/pbuilder --no-create-home pbuilder
-    sudo mkdir /var/cache/pbuilder/ccache
-    sudo chown pbuilder:ccache /var/cache/pbuilder/ccache
-    sudo chmod g+ws /var/cache/pbuilder/ccache
+    sudo mkdir -p /var/cache/pbuilder/ccache
+    sudo chown -R pbuilder:ccache /var/cache/pbuilder/ccache
+    sudo chmod -R g+ws /var/cache/pbuilder/ccache
 
     # Remove previous sandbox.
     sudo rm -rf /var/cache/pbuilder/base-${DIST}.cow
