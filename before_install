@@ -85,7 +85,7 @@ if [ -d debian ]; then
     cp -f $root_dir/.travis/pbuilderrc $HOME/.pbuilderrc
     sed -i "s|@DIST@|${DIST}|g" $HOME/.pbuilderrc
 
-    git-pbuilder create --config "$root_dir/.travis/pbuilderrc"
+    git-pbuilder create
 
     # Speed up pbuilder.
     echo "echo \"force-unsafe-io\" > /etc/dpkg/dpkg.cfg.d/02apt-speedup" | \
