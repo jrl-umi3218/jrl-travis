@@ -25,7 +25,11 @@ if [ -d debian ]; then
     if `test x${DIST} = xunstable`; then
 	echo "Debian Sid package. Skipping Launchpad upload..."
     else
-	dput ppa:${PPA_URI} "$build_dir"/export/*_source.changes
+	if `test x${TRAVIS_PULL_REQUEST} = x`; then
+	    echo "skipping launchpad upload in pull requets"
+	else
+	    dput ppa:${PPA_URI} "$build_dir"/export/*_source.changes
+	fi
     fi
 else
     if [ ! x${DIST} = x ]; then
@@ -48,8 +52,12 @@ else
     # Retrieve last commit of the gh-pages branch.
     git fetch --quiet --depth=1 origin gh-pages:gh-pages
     # Update the documentation.
-    cd $build_dir/doc && $root_dir/cmake/github/update-doxygen-doc.sh \
-	-r $root_dir -b $build_dir
+    if `! test x${TRAVIS_PULL_REQUEST} = x`; then
+	cd $build_dir/doc && $root_dir/cmake/github/update-doxygen-doc.sh \
+	    -r $root_dir -b $build_dir
+    else
+	echo "skipping documentation upload in pull requests"
+    fi
 
     # Push git note indicating success
     cd $root_dir
@@ -59,7 +67,7 @@ else
 	notes_msg="${notes_msg} $package : " $(git rev-parse HEAD) "\n"
     done
     cd $root_dir
-    git fetch --depth=1 origin refs/notes/travis:refs/notes/travis
+    git fetch --quiet origin refs/notes/travis:refs/notes/travis
     git notes --ref=travis add -f -m "$(echo -e "${notes_msg}")" $HEAD
     git push origin refs/notes/travis:refs/notes/travis
 fi
