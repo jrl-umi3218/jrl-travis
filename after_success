@@ -27,7 +27,7 @@ else
     fi
 
     # Only retrieve data from the test suite run.
-    coveralls -r $root_dir -r $build_dir
+    coveralls -r $root_dir -r $build_dir -e CMakeFiles
 
     # Set the push capable URL.
     git remote set-url origin "${GH_PUSH_URI}"
