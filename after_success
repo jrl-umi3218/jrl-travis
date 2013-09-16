@@ -67,7 +67,7 @@ else
 	notes_msg="${notes_msg} $package : " $(git rev-parse HEAD) "\n"
     done
     cd $root_dir
-    git fetch --quiet origin refs/notes/travis || true
+    git fetch --quiet --force origin refs/notes/travis:refs/notes/travis || true
     git notes --ref=travis add -f -m "$(echo "${notes_msg}")" $HEAD
-    git push origin refs/notes/travis -f
+    git push origin refs/notes/travis --force
 fi
