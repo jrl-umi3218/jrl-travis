@@ -79,11 +79,13 @@ if [ -d debian ]; then
     sudo chmod -R g+ws /var/cache/pbuilder/ccache
 
     # Remove previous sandbox.
-    sudo rm -rf /var/cache/pbuilder/base-${DIST}.cow
+    sudo rm -rf /var/cache/pbuilder/base-${DIST}.cow || true
 
     # Create a pbuilder sandbox.
-    cp $root_dir/.travis/pbuilderrc $HOME/.pbuilderrc
+    cp -f $root_dir/.travis/pbuilderrc $HOME/.pbuilderrc
     sed -i "s|@DIST@|${DIST}|g" $HOME/.pbuilderrc
+
+    git-pbuilder create --config "$root_dir/.travis/pbuilderrc"
 
     # Speed up pbuilder.
     echo "echo \"force-unsafe-io\" > /etc/dpkg/dpkg.cfg.d/02apt-speedup" | \
