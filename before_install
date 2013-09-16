@@ -97,8 +97,7 @@ else
     fi
     # Add additional PPAs
     for ppa in ${MASTER_PPA}; do
-	echo "sudo apt-add-repository ppa:${ppa}" | \
-	    git-pbuilder login --save-after-exec
+	sudo apt-add-repository ppa:${ppa}
     done
 
     # ...otherwise we install the dependencies explicitly.
