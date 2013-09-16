@@ -33,7 +33,8 @@ else
     # Retrieve last commit of the gh-pages branch.
     git fetch --depth=1 origin gh-pages:gh-pages
     # Update the documentation.
-    cd $build_dir/doc && $root_dir/cmake/github/update-doxygen-doc.sh
+    cd $build_dir/doc && $root_dir/cmake/github/update-doxygen-doc.sh \
+	-r $root_dir -b $build_dir
 
     # Push git note indicating success
     cd $root_dir
