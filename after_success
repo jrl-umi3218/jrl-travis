@@ -26,8 +26,17 @@ else
 	exit 0
     fi
 
-    # Only retrieve data from the test suite run.
-    coveralls -r $root_dir -r $build_dir -e CMakeFiles
+    # Upload coveralls data.
+    # Make sure build directory is a subdirectory
+    # of the current directory temporarily to work
+    # around coveralls limitations.
+    if [ x${CC} = xgcc ]; then
+	ln -sf $build_dir $root_dir/build
+	coveralls
+	rm -f $root_dir/build
+    else
+	echo "skipping coveralls upload in non-gcc builds"
+    fi
 
     # Set the push capable URL.
     git remote set-url origin "${GH_PUSH_URI}"
