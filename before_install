@@ -102,7 +102,6 @@ if [ -d debian ]; then
 
     # ccache is not necessary in our case and may cause permission
     # issues.
-    git-pbuilder create
     echo "apt-get -y remove ccache" |			\
 	git-pbuilder login --save-after-exec
 else
