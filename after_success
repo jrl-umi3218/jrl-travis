@@ -69,5 +69,5 @@ else
     cd $root_dir
     git fetch --quiet origin refs/notes/travis:refs/notes/travis
     git notes --ref=travis add -f -m "$(echo "${notes_msg}")" $HEAD
-    git push origin refs/notes/travis -f
+    git push origin refs/notes/travis:refs/notes/travis -f
 fi
