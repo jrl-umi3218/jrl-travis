@@ -28,6 +28,9 @@ git config --global user.email "thomas.moulard+travis@gmail.com"
 # Retrive the submodules.
 git submodule update --init --recursive
 
+# Speed up apt
+echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup
+
 # Update the apt local cache.
 sudo apt-get update -qq
 
@@ -83,12 +86,12 @@ if [ -d debian ]; then
     sed -i "s|@DIST@|${DIST}|g" $HOME/.pbuilderrc
 
     # Speed up pbuilder.
-    echo "echo \"force-unsafe-io\"" > /etc/dpkg/dpkg.cfg.d/02apt-speedup | \
+    echo "echo \"force-unsafe-io\" > /etc/dpkg/dpkg.cfg.d/02apt-speedup" | \
 	git-pbuilder login --save-after-exec
 
     # Add additional PPAs
     for ppa in ${DEBIAN_PPA}; do
-	echo "sudo apt-add-repository ppa:${ppa}" | \
+	echo "apt-add-repository ppa:${ppa}" | \
 	    git-pbuilder login --save-after-exec
     done
 
