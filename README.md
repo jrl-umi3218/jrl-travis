@@ -69,7 +69,9 @@ account settings, Applications, Personal Access Token and click on
 `Create New Token`. You can then use the `travis` command-line client
 to encrypt the environment variable:
 
-     $ travis encrypt GH_PUSH_URI=https://<USERNAME>@<YOUR OAUTH TOKEN>:<ORGANIZATION>/<REPO> --add
+```sh
+$ travis encrypt GH_PUSH_URI=https://<USERNAME>@<YOUR OAUTH TOKEN>:<ORGANIZATION>/<REPO> --add
+```
 
 This has to be run in the project root-level directory. Do _not_ copy
 encrypted strings from one project to another. Each repository has its
@@ -131,7 +133,9 @@ environment variable while the passphrase is stored in the
 `GNUPG_PASSPHRASE` secured environment variable. To generate the
 entry, run the following command:
 
-    $ travis encrypt GNUPG_PASSPHRASE=<YOUR KEY PASSPHRASE> --add
+```sh
+$ travis encrypt GNUPG_PASSPHRASE=<YOUR KEY PASSPHRASE> --add
+```
 
 
 ### After Success
@@ -160,22 +164,62 @@ Travis only and should _never_ end up changing the final Debian
 package in any way.
 
 
-Using this repository in your project
--------------------------------------
+Tips and Tricks
+---------------
+
+### Using this repository in your project
 
 This repository is being meant to be used as submodule. In your
 project root directory, please run:
 
-    $ git submodule add git://github.com/jrl-umi3218/jrl-travis.git .travis
+```sh
+$ git submodule add git://github.com/jrl-umi3218/jrl-travis.git .travis
+```
 
 You may want to fork the repository first if your project need to be
 compiled in a particular way.
 
 You can use the `travis.yml.in` file as a template for your project:
 
-    $ cp .travis/travis.yml.in .travis
+```sh
+$ cp .travis/travis.yml.in .travis
+```
 
 All the fields `@FOO@` must be replaced by their real value.
+
+
+### Looking for sucessful builds
+
+The `after_success` script is automatically adding a [git-notes][] to
+all the successful build. These notes will not be displayed by default
+though. To retrieve the notes and display them:
+
+```sh
+$ git fetch origin refs/notes/travis:refs/notes/travis
+$ git log --notes=travis --show-notes
+```
+
+You should see an output like this one:
+
+```
+commit 8e78835cdbbf89f099f394dce9f6083dc802c994
+Author: Thomas Moulard <thomas.moulard@gmail.com>
+Date:   Mon Sep 16 13:37:19 2013 +0900
+
+    Synchronize
+
+    Notes (travis):
+        Successful build.
+	----
+
+	Dependencies commit id:
+```
+
+The note also contain the commit id of all the dependencies installed
+from source to allow you to go back to the exact setup used by Travis
+in this build.
+
+[git-notes]: https://www.kernel.org/pub/software/scm/git/docs/git-notes.html
 
 
 License
