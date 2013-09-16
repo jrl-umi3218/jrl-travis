@@ -27,7 +27,10 @@ else
     fi
 
     # Only retrieve data from the test suite run.
-    coveralls -r $build_dir/tests
+    cd $build_dir/tests
+    coveralls
+    cd $root_dir
+
     # Set the push capable URL.
     git remote set-url origin "${GH_PUSH_URI}"
     # Retrieve last commit of the gh-pages branch.
