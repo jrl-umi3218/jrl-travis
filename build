@@ -53,6 +53,7 @@ build_package()
 
     cppcheck --quiet --enable=all \
 	-I $root_dir/src -I $root_dir/tests -I $root_dir/include \
+	-I $root_dir/tests/shared-tests \
 	-I $build_dir/include -I $install_dir/include \
 	-i $build_dir/CMakeFiles \
 	$root_dir || true
