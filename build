@@ -53,7 +53,7 @@ build_package()
 
     cppcheck --quiet --enable=all \
 	-I $build_dir/include -I $install_dir/include \
-	-i $build_dir/CMakeFiles
+	-i $build_dir/CMakeFiles \
 	$root_dir || true
 
     if `! test x${NSIQCPPSTYLE_FILEFILTERPATH} = x`; then
