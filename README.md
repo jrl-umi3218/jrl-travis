@@ -30,6 +30,39 @@ The dispatch between these two modes is realized by testing whether or
 not a `debian/` directory exists in the repository root-level
 directory.
 
+Features
+--------
+
+Unless Python or Ruby packages, streamlined C++ application deployment
+is extremely challenging. Portability issues, compilation flags,
+interoperability between packages is notable difficult to ensure.
+
+This submodule contains a set of shell scripts which can be used to
+help Travis integrate with various services and tools useful for any
+C++ project.
+
+In particular:
+
+ * Setup dependencies both from apt and from source. In the source
+   case, dependencies are built and installed in a local prefix.
+ * Compile and test the software
+ * Using the [jrl-cmakemodules][]:
+   * Run a CMake compatible `make distcheck` (build a release tarball
+     and the rebuild the whole project from it.
+   * Upload the latest Doxygen documentation to GitHub pages.
+ * Integrate with [cppcheck][], [nsiqcppstyle][], [coverity][] to run
+   static analysis on the code and detect issues.
+ * Use [coveralls.io][] to track test coverage.
+ * Annotate (see [git-notes][]) successful builds with dependencies
+   commit id to be able to reproduce again the exact same successful
+   build.
+
+Additionally, Debian builds can be realized in a pbuilder sandbox to
+produce Debian packages for various distributions.
+
+[jrl-cmakemodules]: https://github.com/jrl-umi3218/jrl-cmakemodules
+[cppcheck]: http://cppcheck.sourceforge.net/
+
 Development branch
 ------------------
 
