@@ -70,6 +70,8 @@ else
 	     --form description="${PROJECT_NAME} v${PROJECT_VERSION} (Travis upload)" \
 	     http://scan5.coverity.com/cgi-bin/upload.py
 	cd $root_dir
+    else
+	echo "coverity support is disabled in this build"
     fi
 
     # Set the push capable URL.

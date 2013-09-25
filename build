@@ -38,6 +38,8 @@ build_package()
     if `! test x${COVERITY_TOKEN} = x`; then
 	export PATH="$build_dir/cov-analysis-linux64-6.6.1/bin:$PATH"
 	MAKE_PREFIX="cov-build --dir cov-int"
+    else
+	echo "coverity support is disabled in this build"
     fi
 
     cd "$build_dir"
@@ -49,11 +51,13 @@ build_package()
     ${MAKE_PREFIX} make install
     ${MAKE_PREFIX} make test
 
-    cppcheck --enable=all $root_dir
+    cppcheck --enable=all $root_dir || true
 
-    if `!test x${NSIQCPPSTYLE_FILEFILTERPATH} = x`; then
+    if `! test x${NSIQCPPSTYLE_FILEFILTERPATH} = x`; then
 	export PATH="$build_dir/nsiqcppstyle:$PATH"
-	nsiqcppstyle -f ${NSIQCPPSTYLE_FILEFILTERPATH} $root_dir
+	nsiqcppstyle -f ${NSIQCPPSTYLE_FILEFILTERPATH} $root_dir || true
+    else
+	echo "nsiqcppstyle support is disabled in this build"
     fi
 }
 
