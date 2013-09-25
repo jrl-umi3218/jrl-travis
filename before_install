@@ -115,7 +115,7 @@ else
     done
 
     # ...otherwise we install the dependencies explicitly.
-    sudo apt-get install -qq curl ${APT_DEPENDENCIES}
+    sudo apt-get install -qq curl cppcheck ${APT_DEPENDENCIES}
     sudo pip install cpp-coveralls --use-mirrors
 
     # ...if a coverity id is set, get the tools.
@@ -126,7 +126,16 @@ else
 	export PATH="$build_dir/cov-analysis-linux64-6.6.1/bin:$PATH"
     fi
 
+    # retrieve
+    if `!test x${NSIQCPPSTYLE_FILEFILTERPATH} = x`; then
+	cd $build_dir
+	wget http://dev.naver.com/frs/download.php/1860/nsiqcppstyle_0.2.2.12.tar.gz
+	tar xzvf nsiqcppstyle_0.2.2.12.tar.gz
+	export PATH="$build_dir/nsiqcppstyle:$PATH"
+    fi
+
     # and we build directly dependencies from the Git repository
+    cd $root_dir
     for package in ${GIT_DEPENDENCIES}; do
 	build_git_dependency "$package"
     done

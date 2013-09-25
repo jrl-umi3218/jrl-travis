@@ -52,6 +52,8 @@ dependencies:
  * `MASTER_PPA` can contain a list of PPA which are needed for this project
    to compile.
  * If `COVERITY_TOKEN` is set, [coverity][] integration will be setup.
+ * If `NSIQCPPSTYLE_FILEFILTERPATH` is set, [nsiqcppstyle][]
+   integration will be setup.
 
 
 ### Build
@@ -99,6 +101,10 @@ triggered by each documentation update.
 
 If `COVERITY_TOKEN` is set, a tarball containing the results of the
 build is created and uploaded to the website.
+
+IF `NSIQCPPSTYLE_FILEFILTERPATH` is set, the coding style checker will
+be called and will use the rules stored in the
+`NSIQCPPSTYLE_FILEFILTERPATH` path.
 
 
 To finish, a `git notes` is used to annotate the commit with the build
@@ -231,7 +237,8 @@ from source to allow you to go back to the exact setup used by Travis
 in this build.
 
 [git-notes]: https://www.kernel.org/pub/software/scm/git/docs/git-notes.html
-
+[coverity]: https://scan.coverity.com/
+[nsiqcppstyle]: https://code.google.com/p/nsiqcppstyle/
 
 License
 -------
