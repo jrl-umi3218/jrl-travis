@@ -120,7 +120,7 @@ else
     # ...if a coverity id is set, get the tools.
     if `! test x${COVERITY_TOKEN} = x`; then
 	cd $build_dir
-	wget https://scan.coverity.com/build_tool/cov-analysis-linux64-6.6.1.tar.gz
+	wget --quiet https://scan.coverity.com/build_tool/cov-analysis-linux64-6.6.1.tar.gz
 	tar xzf cov-analysis-linux64-6.6.1.tar.gz
 	export PATH="$build_dir/cov-analysis-linux64-6.6.1/bin:$PATH"
     else
@@ -130,7 +130,7 @@ else
     # retrieve
     if `! test x${NSIQCPPSTYLE_FILEFILTERPATH} = x`; then
 	cd $build_dir
-	wget http://dev.naver.com/frs/download.php/1860/nsiqcppstyle_0.2.2.12.tar.gz
+	wget --quiet http://dev.naver.com/frs/download.php/1860/nsiqcppstyle_0.2.2.12.tar.gz
 	tar xzf nsiqcppstyle_0.2.2.12.tar.gz
 	export PATH="$build_dir/nsiqcppstyle:$PATH"
     else

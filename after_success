@@ -62,7 +62,7 @@ else
 	fi
 	COVERITY_TARBALL=coverity-${PROJECT_NAME}-${PROJECT_VERSTION}.tgz
 	tar czvf ${COVERITY_TARBALL} cov-int
-	curl --form project=${PROJECT_NAME}			\
+	curl -s --form project=${PROJECT_NAME}			\
 	     --form token=${COVERITY_TOKEN}			\
 	     --form email=thomas.moulard@gmail.com		\
 	     --form file=@$build_dir/${COVERITY_TARBALL}	\
