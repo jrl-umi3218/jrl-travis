@@ -10,7 +10,7 @@ Currently, two ways of building the software are supported:
     development versions of its dependencies that are developed by us.
     If the compilation and the tests succeed, the online documentation
     is automatically uploaded so that it stays up-to-date. The code
-    coverage statistics are also uploaded to the coveralls.io website
+    coverage statistics are also uploaded to the [coveralls.io][] website
     where it is displayed.
 
  1. the Debian branch is using git-buildpackage and git-pbuilder to
@@ -62,6 +62,7 @@ produce Debian packages for various distributions.
 
 [jrl-cmakemodules]: https://github.com/jrl-umi3218/jrl-cmakemodules
 [cppcheck]: http://cppcheck.sourceforge.net/
+[coveralls.io]: https://coveralls.io/
 
 Development branch
 ------------------
