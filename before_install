@@ -115,8 +115,16 @@ else
     done
 
     # ...otherwise we install the dependencies explicitly.
-    sudo apt-get install -qq ${APT_DEPENDENCIES}
+    sudo apt-get install -qq curl ${APT_DEPENDENCIES}
     sudo pip install cpp-coveralls --use-mirrors
+
+    # ...if a coverity id is set, get the tools.
+    if `! test x${COVERITY_TOKEN} = x`; then
+	cd $build_dir
+	wget https://scan.coverity.com/build_tool/cov-analysis-linux64-6.6.1.tar.gz
+	tar xzvf cov-analysis-linux64-6.6.1.tar.gz
+	export PATH="$build_dir/cov-analysis-linux64-6.6.1/bin:$PATH"
+    fi
 
     # and we build directly dependencies from the Git repository
     for package in ${GIT_DEPENDENCIES}; do

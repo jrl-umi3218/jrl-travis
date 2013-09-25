@@ -32,14 +32,22 @@ export CTEST_OUTPUT_ON_FAILURE=1
 build_package()
 {
     echo "Building package..."
+
+    # Coverity support
+    MAKE_PREFIX=""
+    if `! test x${COVERITY_TOKEN} = x`; then
+	export PATH="$build_dir/cov-analysis-linux64-6.6.1/bin:$PATH"
+	MAKE_PREFIX="cov-build --dir cov-int"
+    fi
+
     cd "$build_dir"
     cmake "$root_dir" -DCMAKE_INSTALL_PREFIX="$install_dir"	\
 	-DCMAKE_CXX_FLAGS="--coverage"				\
 	-DCMAKE_EXE_LINKER_FLAGS="--coverage"			\
 	-DCMAKE_MODULE_LINKER_FLAGS="--coverage"
-    make
-    make install
-    make test
+    ${MAKE_PREFIX} make
+    ${MAKE_PREFIX} make install
+    ${MAKE_PREFIX} make test
 }
 
 # debian_build_package

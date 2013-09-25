@@ -47,6 +47,31 @@ else
 	echo "skipping coveralls upload in non-gcc builds"
     fi
 
+    # Coverity support
+    if `! test x${COVERITY_TOKEN} = x`; then
+	cd $build_dir
+	PROJECT_NAME=`basename $root_dir`
+	PROJECT_VERSION=`PKG_CONFIG_PATH="$build_dir" pkg-config --modversion ${PROJECT_NAME}`
+	if `test x${PROJECT_NAME} = x`; then
+	    echo "failed to determine project name"
+	    exit 1
+	fi
+	if `test x${PROJECT_NAME} = x`; then
+	    echo "failed to determine project version"
+	    exit 1
+	fi
+	COVERITY_TARBALL=coverity-${PROJECT_NAME}-${PROJECT_VERSTION}.tgz
+	tar czvf ${COVERITY_TARBALL} cov-int
+	curl --form project=${PROJECT_NAME}			\
+	     --form token=${COVERITY_TOKEN}			\
+	     --form email=thomas.moulard@gmail.com		\
+	     --form file=@$build_dir/${COVERITY_TARBALL}	\
+	     --form version=${PROJECT_VERSION}			\
+	     --form description="${PROJECT_NAME} v${PROJECT_VERSION} (Travis upload)" \
+	     http://scan5.coverity.com/cgi-bin/upload.py
+	cd $root_dir
+    fi
+
     # Set the push capable URL.
     git remote set-url origin "${GH_PUSH_URI}"
     # Retrieve last commit of the gh-pages branch.
