@@ -51,7 +51,7 @@ build_package()
     ${MAKE_PREFIX} make install
     ${MAKE_PREFIX} make test
 
-    cppcheck --enable=all $root_dir || true
+    cppcheck --enable=all -I $build_dir/include -I $install_dir/include $root_dir || true
 
     if `! test x${NSIQCPPSTYLE_FILEFILTERPATH} = x`; then
 	export PATH="$build_dir/nsiqcppstyle:$PATH"
