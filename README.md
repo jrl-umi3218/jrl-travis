@@ -51,12 +51,18 @@ dependencies:
    be installed first.
  * `MASTER_PPA` can contain a list of PPA which are needed for this project
    to compile.
+ * If `COVERITY_TOKEN` is set, [coverity][] integration will be setup.
 
 
 ### Build
 
 The build step in this case is just configuring the package, building
 the package, installing it and running the test suite.
+
+
+Again, if `COVERITY_TOKEN` is set, the `cov-int` tool will be used to
+generate a report which will be uploaded to the Coverity website if
+the build is successful.
 
 
 ### After success
@@ -89,6 +95,11 @@ _Be careful:_ the `gh-pages` must never run the build in this
 repository. As we are committing to this branch, using these scripts
 on this branch may result in an infinite number of successive build
 triggered by each documentation update.
+
+
+If `COVERITY_TOKEN` is set, a tarball containing the results of the
+build is created and uploaded to the website.
+
 
 To finish, a `git notes` is used to annotate the commit with the build
 result. A string containing the commit id of all the Git dependencies
