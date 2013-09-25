@@ -34,6 +34,9 @@ sudo sh -c "echo \"force-unsafe-io\" > /etc/dpkg/dpkg.cfg.d/02apt-speedup"
 # Update the apt local cache.
 sudo apt-get update -qq
 
+# Fetch tags to compute the distance between the last release tag
+# and us.
+git fetch --quiet --tags
 
 # build_git_dependency
 # --------------------
@@ -57,10 +60,6 @@ if [ -d debian ]; then
 	exit 0
     fi
     echo "Target distribution: ${DIST}"
-
-    # Fetch tags to compute the distance between the last release tag
-    # and us.
-    git fetch --quiet --tags
 
     # If we are, we install Debian package development tools and
     # create a sid pbuilder. Package dependencies will be installed
