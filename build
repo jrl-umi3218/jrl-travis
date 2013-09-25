@@ -58,7 +58,7 @@ build_package()
 
     if `! test x${NSIQCPPSTYLE_FILEFILTERPATH} = x`; then
 	export PATH="$build_dir/nsiqcppstyle:$PATH"
-	nsiqcppstyle -f $root_dir/${NSIQCPPSTYLE_FILEFILTERPATH} $root_dir || true
+	nsiqcppstyle --ci -f $root_dir/${NSIQCPPSTYLE_FILEFILTERPATH} $root_dir || true
     else
 	echo "nsiqcppstyle support is disabled in this build"
     fi
