@@ -17,8 +17,8 @@ trap "rm -rf -- '$build_dir'" EXIT
 
 
 cd "$build_dir"
-wget "http://bitbucket.org/eigen/eigen/get/3.2.0.tar.gz"
-tar xzvf 3.2.0.tar.gz
+wget --quiet "http://bitbucket.org/eigen/eigen/get/3.2.0.tar.gz"
+tar xzf 3.2.0.tar.gz
 cd "$build_dir/eigen-eigen-ffa86ffb5570/"
 mkdir -p "$build_dir/eigen-eigen-ffa86ffb5570/_build"
 cd "$build_dir/eigen-eigen-ffa86ffb5570/_build"
