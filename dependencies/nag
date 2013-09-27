@@ -1,0 +1,23 @@
+#!/bin/sh
+#
+# Setup NAG
+#
+set -e
+
+# Directories.
+root_dir=`pwd`
+if [ -d debian ]; then
+    install_dir="/tmp/_travis/install"
+else
+    install_dir="$root_dir/_travis/install"
+fi
+
+build_dir=`mktemp -d`
+trap "rm -rf -- '$build_dir'" EXIT
+
+
+# Checkout NAG.
+cd "$build_dir"
+wget "http://www.nag.co.uk/downloads/impl/cll6a23dhl.tgz"
+tar xzvf cll6a23dhl.tgz
+./install.sh -accept -installdir="$install_dir/NAG"
