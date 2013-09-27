@@ -2,15 +2,7 @@
 #
 # Setup NAG
 #
-set -e
-
-# Directories.
-root_dir=`pwd`
-if [ -d debian ]; then
-    install_dir="/tmp/_travis/install"
-else
-    install_dir="$root_dir/_travis/install"
-fi
+. .travis/common.sh
 
 build_dir=`mktemp -d`
 trap "rm -rf -- '$build_dir'" EXIT

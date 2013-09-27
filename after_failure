@@ -1,17 +1,5 @@
 #!/bin/sh
-set -e
-
-# Directories.
-root_dir=`pwd`
-
-if [ -d debian ]; then
-    build_dir="/tmp/_travis/build"
-    install_dir="/tmp/_travis/install"
-else
-    build_dir="$root_dir/_travis/build"
-    install_dir="$root_dir/_travis/install"
-fi
-
+. .travis/common.sh
 
 if [ -d debian ]; then
     echo "Debian build failed"

@@ -2,24 +2,7 @@
 #
 # Setup Eigen 3.2.
 #
-set -e
-
-# Directories.
-root_dir=`pwd`
-if [ -d debian ]; then
-    install_dir="/tmp/_travis/install"
-else
-    install_dir="$root_dir/_travis/install"
-fi
-
-build_dir=`mktemp -d`
-trap "rm -rf -- '$build_dir'" EXIT
-
-# Setup environment variables.
-export LD_LIBRARY_PATH="$install_dir/lib:$LD_LIBRARY_PATH"
-export LD_LIBRARY_PATH="$install_dir/lib/`dpkg-architecture -qDEB_BUILD_MULTIARCH`:$LD_LIBRARY_PATH"
-export PKG_CONFIG_PATH="$install_dir/lib/pkgconfig:$PKG_CONFIG_PATH"
-export PKG_CONFIG_PATH="$install_dir/lib/`dpkg-architecture -qDEB_BUILD_MULTIARCH`/pkgconfig:$PKG_CONFIG_PATH"
+. .travis/common.sh
 
 # Checkout Eigen
 cd "$build_dir"
@@ -34,5 +17,5 @@ make
 make install
 
 # Check install
-pkg-config --modversion eigen3
-pkg-config --cflags eigen3
+pkg-config --modversion "eigen3 >= 3.2.0"
+pkg-config --cflags "eigen3 >= 3.2.0"
