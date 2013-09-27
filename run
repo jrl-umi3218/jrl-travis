@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Take into account build return status and not sed one.
+set -o pipefail
+
+# Anonymize the output.
+./.travis/$1 2>&1 | sed \
+    -e "s|${COVERITY_TOKEN}|\#EDITED\#|g" \
+    -e "s|${GNUPG_PASSPHRASE}|\#EDITED\#|g" \
+    -e "s|${GH_PUSH_URI}|\#EDITED\#|g"
