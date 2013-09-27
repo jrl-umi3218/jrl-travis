@@ -4,7 +4,9 @@
 set -o pipefail
 
 # Anonymize the output.
-./.travis/$1 2>&1 | sed \
-    -e "s|${COVERITY_TOKEN}|\#EDITED\#|g" \
-    -e "s|${GNUPG_PASSPHRASE}|\#EDITED\#|g" \
+./.travis/$1 2>&1 | sed					\
+    -e "s|${COVERITY_TOKEN}|\#EDITED\#|g"		\
+    -e "s|${GNUPG_PASSPHRASE}|\#EDITED\#|g"		\
+    -e "s|${GH_USERNAME}|\#EDITED\#|g"			\
+    -e "s|${GH_TOKEN}|\#EDITED\#|g"			\
     -e "s|${GH_PUSH_URI}|\#EDITED\#|g"
