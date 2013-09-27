@@ -38,6 +38,9 @@ sudo apt-get update -qq
 # and us.
 git fetch --quiet --tags
 
+# Shortcuts.
+git_clone="git clone --quiet --recursive"
+
 # build_git_dependency
 # --------------------
 #
