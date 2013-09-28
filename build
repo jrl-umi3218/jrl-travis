@@ -28,7 +28,7 @@ build_package()
     ${MAKE_PREFIX} make
     make install
 
-    if `test x${ALLOW_TESTSUITE_FAILURE} = x` then
+    if `test x${ALLOW_TESTSUITE_FAILURE} = x`; then
 	ALLOW_TESTSUITE_FAILURE=false
     fi
     make test || ${ALLOW_TESTSUITE_FAILURE}
