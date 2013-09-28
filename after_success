@@ -66,8 +66,7 @@ else
     #
     # Add the possibility to use three variables instead of one to
     # work around string maximum length limitation issue.
-    if `! test x${GH_PUSH_URI} = x`; then
-    else
+    if `test x${GH_PUSH_URI} = x`; then
 	export GH_PUSH_URI=https://${GH_USERNAME}:${GH_TOKEN}@github.com/${GH_REPO}
     fi
     git remote set-url origin "${GH_PUSH_URI}"
