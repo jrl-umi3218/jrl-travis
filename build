@@ -27,7 +27,11 @@ build_package()
 	${CMAKE_ADDITIONAL_OPTIONS}
     ${MAKE_PREFIX} make
     make install
-    make test
+
+    if `test x${ALLOW_TESTSUITE_FAILURE} = x` then
+	ALLOW_TESTSUITE_FAILURE=false
+    fi
+    make test || ${ALLOW_TESTSUITE_FAILURE}
 
     cppcheck --quiet --enable=all \
 	-I $root_dir/src -I $root_dir/tests -I $root_dir/include \
