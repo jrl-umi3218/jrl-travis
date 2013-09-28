@@ -86,7 +86,8 @@ else
     notes_msg="Successful build.\n----\n\nDependencies commit id:"
     for package in ${GIT_DEPENDENCIES}; do
 	cd $build_dir/$package
-	notes_msg="${notes_msg} $package : " $(git rev-parse HEAD) "\n"
+	commitid=`git rev-parse HEAD || echo unknown`
+	notes_msg="${notes_msg} $package : $commitid\n"
     done
     cd $root_dir
     git fetch --quiet --force origin refs/notes/travis:refs/notes/travis || true
