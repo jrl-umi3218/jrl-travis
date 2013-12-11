@@ -29,6 +29,11 @@ export LTDL_LIBRARY_PATH="$install_dir/lib/`dpkg-architecture -qDEB_BUILD_MULTIA
 export PKG_CONFIG_PATH="$install_dir/lib/pkgconfig:$PKG_CONFIG_PATH"
 export PKG_CONFIG_PATH="$install_dir/lib/`dpkg-architecture -qDEB_BUILD_MULTIARCH`/pkgconfig:$PKG_CONFIG_PATH"
 
+if type "python" > /dev/null; then
+    pythonsite_dir=`python -c "import sys, os; print os.sep.join(['lib', 'python' + sys.version[:3], 'site-packages'])"`
+    export PYTHONPATH="$install_dir/$pythonsite_dir:$PYTHONPATH"
+fi
+
 # Make cmake verbose.
 export CMAKE_VERBOSE_MAKEFILE=1
 export CTEST_OUTPUT_ON_FAILURE=1
