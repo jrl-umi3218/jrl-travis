@@ -120,9 +120,23 @@ else
     # ...if a coverity id is set, get the tools.
     if `! test x${COVERITY_TOKEN} = x`; then
 	cd $build_dir
-	wget --quiet https://scan.coverity.com/build_tool/cov-analysis-linux64-6.6.1.tar.gz
-	tar xzf cov-analysis-linux64-6.6.1.tar.gz
-	export PATH="$build_dir/cov-analysis-linux64-6.6.1/bin:$PATH"
+        # Get appropriate download link
+        case `uname -m` in
+            i?86)
+                BITS=32
+                ;;
+            amd64|x86_64)
+                BITS=64
+                ;;
+        esac
+        coverity_download=https://scan.coverity.com/download/linux-${BITS}
+
+        # Download the file (token and project name required)
+        wget -O coverity_tool.tgz $coverity_download \
+            --post-data "token=${COVERITY_TOKEN}&project=${PROJECT_NAME}"
+	tar xzf coverity_tool.tgz
+        coverity_dir=`find $build_dir -type d -name 'cov-analysis*'`
+	export PATH="$build_dir/$coverity_dir/bin:$PATH"
     else
 	echo "coverity support is disabled in this build"
     fi
