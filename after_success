@@ -1,6 +1,10 @@
 #!/bin/bash
 . .travis/common.sh
 
+# Set debug mode
+set -x
+set -v
+
 if [ -d debian ]; then
     if `test x${DIST} = x`; then
 	echo "distribution is not set, skipping this build"
@@ -94,3 +98,7 @@ else
     git notes --ref=travis add -f -m "$(echo "${notes_msg}")" $HEAD
     git push origin refs/notes/travis --force
 fi
+
+# End debug mode
+set +v
+set +x
