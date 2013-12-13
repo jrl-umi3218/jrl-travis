@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 . .travis/common.sh
 
 # build_package

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 . .travis/common.sh
 
 if [ -d debian ]; then

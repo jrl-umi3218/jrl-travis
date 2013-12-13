@@ -1,8 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
 rm -rf "$build_dir" "$install_dir"
 
 . .travis/common.sh
+
+# Set debug mode
+set -x
+set -v
 
 # Setup Git identity.
 git config --global user.name "Thomas Moulard (Travis Automatic Builds)"
@@ -139,3 +143,7 @@ else
 	build_git_dependency "$package"
     done
 fi
+
+# End debug mode
+set +v
+set +x
