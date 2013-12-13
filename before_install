@@ -120,6 +120,7 @@ else
     # ...if a coverity id is set, get the tools.
     if `! test x${COVERITY_TOKEN} = x`; then
 	cd $build_dir
+        PROJECT_NAME=`basename $root_dir`
         # Get appropriate download link
         case `uname -m` in
             i?86)
