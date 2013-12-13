@@ -41,3 +41,6 @@ export CTEST_OUTPUT_ON_FAILURE=1
 # Create layout.
 mkdir -p "$build_dir"
 mkdir -p "$install_dir"
+
+# Add verbose handling
+. .travis/verbose_errors.sh
