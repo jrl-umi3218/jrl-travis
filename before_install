@@ -8,6 +8,9 @@ rm -rf "$build_dir" "$install_dir"
 set -x
 set -v
 
+# Print Git version
+git --version
+
 # Setup Git identity.
 git config --global user.name "Thomas Moulard (Travis Automatic Builds)"
 git config --global user.email "thomas.moulard+travis@gmail.com"

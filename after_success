@@ -77,7 +77,7 @@ else
     git remote set-url origin "${GH_PUSH_URI}"
 
     # Retrieve last commit of the gh-pages branch.
-    git fetch --quiet --depth=1 origin gh-pages:gh-pages
+    git fetch --depth=1 origin gh-pages:gh-pages
     # Update the documentation.
     if `! test x${TRAVIS_PULL_REQUEST} = x`; then
 	cd $build_dir/doc && $root_dir/cmake/github/update-doxygen-doc.sh \
