@@ -233,7 +233,7 @@ compiled in a particular way.
 You can use the `travis.yml.in` file as a template for your project:
 
 ```sh
-$ cp .travis/travis.yml.in .travis
+$ cp .travis/travis.yml.in .travis.yml
 ```
 
 All the fields `@FOO@` must be replaced by their real value.
