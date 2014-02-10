@@ -53,7 +53,7 @@ build_git_dependency()
     $git_clone "git://github.com/$1" "$1"
     cd "$build_dir/$1"
     cmake . -DCMAKE_INSTALL_PREFIX:STRING="$install_dir"
-    make install
+    make install || make
 }
 
 # Check if we are in a debian branch...
