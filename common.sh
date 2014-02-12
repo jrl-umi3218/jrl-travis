@@ -5,13 +5,8 @@ set -e
 # Directories.
 root_dir=`pwd`
 
-if [ -d debian ]; then
-    build_dir="/tmp/_travis/build"
-    install_dir="/tmp/_travis/install"
-else
-    build_dir="$root_dir/_travis/build"
-    install_dir="$root_dir/_travis/install"
-fi
+build_dir="/tmp/_travis/build"
+install_dir="/tmp/_travis/install"
 
 echo "root_dir: " $root_dir
 echo "build_dir: " $build_dir
