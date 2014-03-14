@@ -1,6 +1,10 @@
 #!/bin/bash
 . .travis/common.sh
 
+# Set debug mode
+set -x
+set -v
+
 # build_package
 # -------------
 #
@@ -129,3 +133,7 @@ else
     fi
     build_package
 fi
+
+# End debug mode
+set +v
+set +x
