@@ -13,7 +13,8 @@ build_package()
     # Coverity support
     MAKE_PREFIX=""
     if `! test x${COVERITY_TOKEN} = x`; then
-	export PATH="$build_dir/cov-analysis-linux64-6.6.1/bin:$PATH"
+	coverity_dir=`find $build_dir -type d -name 'cov-analysis*'`
+	export PATH="$build_dir/$coverity_dir/bin:$PATH"
 	MAKE_PREFIX="cov-build --dir cov-int"
     else
 	echo "coverity support is disabled in this build"
