@@ -35,7 +35,7 @@ else
     # Upload coveralls data.
     if [ x${CC} = xgcc ]; then
 	# If tests failed, coveralls data may not have been written
-	coveralls -e $install_dir > /dev/null || true
+	coveralls -b $build_dir -e $install_dir > /dev/null || true
     else
 	echo "skipping coveralls upload in non-gcc builds"
     fi
