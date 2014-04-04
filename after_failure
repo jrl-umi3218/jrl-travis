@@ -5,6 +5,10 @@
 set -x
 set -v
 
+# Display post-failure environment
+echo "Environment:"
+env
+
 if [ -d debian ]; then
     echo "Debian build failed"
 else
