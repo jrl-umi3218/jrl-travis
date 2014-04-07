@@ -25,7 +25,7 @@ on_error () {
         local lineno=${BASH_LINENO[frame]}
 
         printf >&2 '  File "%s", line %d, in %s\n' "${BASH_SOURCE[frame+1]}" "$lineno" "${FUNCNAME[frame+1]}"
-        sed >&2 -n "${lineno}s/^[ 	]*/    /p" "${BASH_SOURCE[frame+1]}"
+        sed >&2 -n "${lineno}s/^[ 	]*/    /p" "${BASH_SOURCE[frame+1]}" || true
     done
     printf >&2 "Exiting with %d\n" "$ret"
     exit $ret
