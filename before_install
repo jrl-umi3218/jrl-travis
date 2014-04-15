@@ -113,8 +113,9 @@ else
     fi
     # Add additional PPAs
     for ppa in ${MASTER_PPA}; do
-	sudo apt-add-repository ppa:${ppa}
+	sudo add-apt-repository -y ppa:${ppa}
     done
+    sudo apt-get update -qq
 
     # ...otherwise we install the dependencies explicitly.
     sudo apt-get install -qq curl cppcheck ${APT_DEPENDENCIES}
