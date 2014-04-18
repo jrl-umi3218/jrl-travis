@@ -45,13 +45,21 @@ env
 # --------------------
 #
 # Build a dependency directly from the Git development tree.
+# First argument: repository's GitHub URL + optional branch
+# For example: "jrl-umi3218/jrl-travis" or "jrl-umi3218/jrl-travis:dev"
 build_git_dependency()
 {
-    echo "--> Compiling $1"
-    mkdir -p "$build_dir/$1"
+    _string=$1
+    git_dep=${_string%%:*}
+    git_dep_branch=${_string##*:}
+    if [ "$git_dep_branch" == "$git_dep" ]; then
+      git_dep_branch="master"
+    fi
+    echo "--> Compiling $git_dep (branch $git_dep_branch)"
+    mkdir -p "$build_dir/$git_dep"
     cd "$build_dir"
-    $git_clone "git://github.com/$1" "$1"
-    cd "$build_dir/$1"
+    $git_clone -b $git_dep_branch "git://github.com/$git_dep" "$git_dep"
+    cd "$build_dir/$git_dep"
     cmake . -DCMAKE_INSTALL_PREFIX:STRING="$install_dir"
     make install || make
 }
