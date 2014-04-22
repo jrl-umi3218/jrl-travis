@@ -127,7 +127,7 @@ else
 
     # ...otherwise we install the dependencies explicitly.
     sudo apt-get install -qq curl cppcheck ${APT_DEPENDENCIES}
-    sudo pip install cpp-coveralls --use-mirrors
+    sudo pip install cpp-coveralls
 
     # ...if a coverity id is set, get the tools.
     if `! test x${COVERITY_TOKEN} = x`; then
