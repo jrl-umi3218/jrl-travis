@@ -74,7 +74,7 @@ current dependencies both from APT and those which must be compiled
 from source.
 
 The following environment variables are defining the project
-dependencies:
+dependencies or parameters:
 
  * `APT_DEPENDENCIES` is passed directly to `apt-get install`.
  * `GIT_DEPENDENCIES` contains the name of the GitHub repositories that
@@ -84,10 +84,25 @@ dependencies:
    dependencies depend on other packages compiled from source which must
    be installed first.
  * `MASTER_PPA` can contain a list of PPA which are needed for this project
-   to compile.
+   to compile. For example:
+
+   ```sh
+   # Use the latest Boost release
+   MASTER_PPA="boost-latest/ppa"
+   ```
+   
  * If `COVERITY_TOKEN` is set, [coverity][] integration will be setup.
  * If `NSIQCPPSTYLE_FILEFILTERPATH` is set, [nsiqcppstyle][]
    integration will be setup.
+ * `LCOV_IGNORE_RULES` contains ignore rules for the [coveralls.io][]
+   report. It should be provided in the form:
+
+   ```sh
+   # Ignore all paths containing "foo" or "bar"
+   LCOV_IGNORE_RULES="*foo* *bar*"
+   # This will lead to:
+   # lcov --remove coverage.info '*foo*' '*bar*' -o coverage.info
+   ```
 
 
 ### Build
