@@ -39,7 +39,12 @@ else
 	lcov --directory $build_dir --base-directory $root_dir --capture --output-file coverage.info || true
 	lcov --remove coverage.info '/usr*' "$install_dir*" -o coverage.info || true
 	if `! test x${LCOV_IGNORE_RULES} = x`; then
+            # Note: ignore rules are given by a string such as "*test* *foo*"
+            # lcov expects: '*test*' '*foo*'
+            # We use -f to prevent expansion of *
+            set -f
 	    lcov --remove coverage.info ${LCOV_IGNORE_RULES} -o coverage.info || true
+            set +f
 	fi
 	cd $root_dir
 	coveralls-lcov "$build_dir/coverage.info" || true
