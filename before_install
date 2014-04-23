@@ -127,7 +127,10 @@ else
 
     # ...otherwise we install the dependencies explicitly.
     sudo apt-get install -qq curl cppcheck ${APT_DEPENDENCIES}
-    sudo pip install cpp-coveralls
+
+    # Install lcov and related dependencies
+    sudo apt-get install -qq lcov
+    gem install coveralls-lcov
 
     # ...if a coverity id is set, get the tools.
     if `! test x${COVERITY_TOKEN} = x`; then

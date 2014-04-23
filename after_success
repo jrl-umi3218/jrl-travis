@@ -34,9 +34,16 @@ else
 
     # Upload coveralls data.
     if [ x${CC} = xgcc ]; then
+	cd $build_dir
 	# If tests failed, coveralls data may not have been written
-	coveralls -b "$build_dir" -e $install_dir &> coveralls.log || true
-	cat coveralls.log || true
+	lcov --directory $build_dir --base-directory $root_dir --capture --output-file coverage.info || true
+	lcov --remove coverage.info '/usr*' -o coverage.info || true
+	if `! test x${LCOV_IGNORE_RULES} = x`; then
+	    lcov --remove coverage.info ${LCOV_IGNORE_RULES} -o coverage.info || true
+	fi
+	cd $root_dir
+	coveralls-lcov "$build_dir/coverage.info" || true
+	cd -
     else
 	echo "skipping coveralls upload in non-gcc builds"
     fi
