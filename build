@@ -44,13 +44,6 @@ build_package()
 	-I $build_dir/include -I $install_dir/include \
 	-i $build_dir/CMakeFiles \
 	$root_dir || true
-
-    if `! test x${NSIQCPPSTYLE_FILEFILTERPATH} = x`; then
-	export PATH="$build_dir/nsiqcppstyle:$PATH"
-	nsiqcppstyle --ci -f $root_dir/${NSIQCPPSTYLE_FILEFILTERPATH} $root_dir || true
-    else
-	echo "nsiqcppstyle support is disabled in this build"
-    fi
 }
 
 # debian_build_package

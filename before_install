@@ -157,16 +157,6 @@ else
 	echo "coverity support is disabled in this build"
     fi
 
-    # retrieve
-    if `! test x${NSIQCPPSTYLE_FILEFILTERPATH} = x`; then
-	cd $build_dir
-	wget --quiet http://dev.naver.com/frs/download.php/1860/nsiqcppstyle_0.2.2.12.tar.gz
-	tar xzf nsiqcppstyle_0.2.2.12.tar.gz
-	export PATH="$build_dir/nsiqcppstyle:$PATH"
-    else
-	echo "nsiqcppstyle support is disabled in this build"
-    fi
-
     # and we build directly dependencies from the Git repository
     cd $root_dir
     for package in ${GIT_DEPENDENCIES}; do

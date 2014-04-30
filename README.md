@@ -50,7 +50,7 @@ In particular:
    * Run a CMake compatible `make distcheck` (build a release tarball
      and the rebuild the whole project from it.
    * Upload the latest Doxygen documentation to GitHub pages.
- * Integrate with [cppcheck][], [nsiqcppstyle][], [coverity][] to run
+ * Integrate with [cppcheck][], [coverity][] to run
    static analysis on the code and detect issues.
  * Use [coveralls.io][] to track test coverage.
  * Annotate (see [git-notes][]) successful builds with dependencies
@@ -92,8 +92,6 @@ dependencies or parameters:
    ```
    
  * If `COVERITY_TOKEN` is set, [coverity][] integration will be setup.
- * If `NSIQCPPSTYLE_FILEFILTERPATH` is set, [nsiqcppstyle][]
-   integration will be setup.
  * `LCOV_IGNORE_RULES` contains ignore rules for the [coveralls.io][]
    report. It should be provided in the form:
 
@@ -150,10 +148,6 @@ triggered by each documentation update.
 
 If `COVERITY_TOKEN` is set, a tarball containing the results of the
 build is created and uploaded to the website.
-
-IF `NSIQCPPSTYLE_FILEFILTERPATH` is set, the coding style checker will
-be called and will use the rules stored in the
-`NSIQCPPSTYLE_FILEFILTERPATH` path.
 
 
 To finish, a `git notes` is used to annotate the commit with the build
@@ -287,7 +281,6 @@ in this build.
 
 [git-notes]: https://www.kernel.org/pub/software/scm/git/docs/git-notes.html
 [coverity]: https://scan.coverity.com/
-[nsiqcppstyle]: https://code.google.com/p/nsiqcppstyle/
 
 License
 -------
