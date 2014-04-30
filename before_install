@@ -60,7 +60,8 @@ build_git_dependency()
     cd "$build_dir"
     $git_clone -b $git_dep_branch "git://github.com/$git_dep" "$git_dep"
     cd "$build_dir/$git_dep"
-    cmake . -DCMAKE_INSTALL_PREFIX:STRING="$install_dir"
+    cmake . -DCMAKE_INSTALL_PREFIX:STRING="$install_dir" \
+            -DDISABLE_TESTS:BOOL=ON
     make install || make
 }
 
