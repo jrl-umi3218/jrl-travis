@@ -82,34 +82,39 @@ else
 
     # If it's not a fork or a pull request
     if `test x${TRAVIS_REPO_SLUG} = x${GH_REPO} -a ${TRAVIS_PULL_REQUEST} = false`; then
-	# Set the push capable URL.
-	#
-	# Add the possibility to use three variables instead of one to
-	# work around string maximum length limitation issue.
-	if `test x${GH_PUSH_URI} = x`; then
-	    export GH_PUSH_URI=https://${GH_USERNAME}:${GH_TOKEN}@github.com/${GH_REPO}
+	# If encrypted username/tokens were not provided
+	if `test x${GH_TOKEN} = x -o x${GH_USERNAME} = x`; then
+	    echo "missing username and/or token for GitHub push"
+	else
+	    # Set the push capable URL.
+	    #
+	    # Add the possibility to use three variables instead of one to
+	    # work around string maximum length limitation issue.
+	    if `test x${GH_PUSH_URI} = x`; then
+		export GH_PUSH_URI=https://${GH_USERNAME}:${GH_TOKEN}@github.com/${GH_REPO}
+	    fi
+	    git remote set-url origin "${GH_PUSH_URI}"
+
+	    # Update the documentation.
+	    # Retrieve last commit of the gh-pages branch.
+	    git fetch --depth=1 origin gh-pages:gh-pages
+
+	    cd $build_dir/doc && $root_dir/cmake/github/update-doxygen-doc.sh \
+		-r $root_dir -b $build_dir
+
+	    # Push git note indicating success
+	    cd $root_dir
+	    notes_msg="Successful build.\n----\n\nDependencies commit id:"
+	    for package in ${GIT_DEPENDENCIES}; do
+		cd $build_dir/$package
+		commitid=`git rev-parse HEAD || echo unknown`
+		notes_msg="${notes_msg} $package : $commitid\n"
+	    done
+	    cd $root_dir
+	    git fetch --quiet --force origin refs/notes/travis:refs/notes/travis || true
+	    git notes --ref=travis add -f -m "$(echo "${notes_msg}")" $HEAD
+	    git push origin refs/notes/travis --force
 	fi
-	git remote set-url origin "${GH_PUSH_URI}"
-
-	# Update the documentation.
-	# Retrieve last commit of the gh-pages branch.
-	git fetch --depth=1 origin gh-pages:gh-pages
-
-	cd $build_dir/doc && $root_dir/cmake/github/update-doxygen-doc.sh \
-	    -r $root_dir -b $build_dir
-
-	# Push git note indicating success
-	cd $root_dir
-	notes_msg="Successful build.\n----\n\nDependencies commit id:"
-	for package in ${GIT_DEPENDENCIES}; do
-	    cd $build_dir/$package
-	    commitid=`git rev-parse HEAD || echo unknown`
-	    notes_msg="${notes_msg} $package : $commitid\n"
-	done
-	cd $root_dir
-	git fetch --quiet --force origin refs/notes/travis:refs/notes/travis || true
-	git notes --ref=travis add -f -m "$(echo "${notes_msg}")" $HEAD
-	git push origin refs/notes/travis --force
     else
 	echo "skipping doc/build result upload on forks and for pull requests"
     fi
