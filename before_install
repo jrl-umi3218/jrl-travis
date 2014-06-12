@@ -15,14 +15,16 @@ git --version
 git config --global user.name "Thomas Moulard (Travis Automatic Builds)"
 git config --global user.email "thomas.moulard+travis@gmail.com"
 
-# Retrive the submodules.
+# Retrieve the submodules.
 git submodule update --quiet --init --recursive
 
-# Speed up apt
-sudo sh -c "echo \"force-unsafe-io\" > /etc/dpkg/dpkg.cfg.d/02apt-speedup"
+if `test ${TRAVIS_OS_NAME} = linux`; then
+    # Speed up apt
+    sudo sh -c "echo \"force-unsafe-io\" > /etc/dpkg/dpkg.cfg.d/02apt-speedup"
 
-# Update the apt local cache.
-sudo apt-get update -qq
+    # Update the apt local cache.
+    sudo apt-get update -qq
+fi
 
 # Fetch tags to compute the distance between the last release tag
 # and us.
@@ -53,7 +55,7 @@ build_git_dependency()
     git_dep=${_string%%:*}
     git_dep_branch=${_string##*:}
     if [ "$git_dep_branch" == "$git_dep" ]; then
-      git_dep_branch="master"
+	git_dep_branch="master"
     fi
     echo "--> Compiling $git_dep (branch $git_dep_branch)"
     mkdir -p "$build_dir/$git_dep"
@@ -120,17 +122,21 @@ else
 	echo "skipping this build"
 	exit 0
     fi
-    # Add additional PPAs
-    for ppa in ${MASTER_PPA}; do
-	sudo add-apt-repository -y ppa:${ppa}
-    done
-    sudo apt-get update -qq
 
-    # ...otherwise we install the dependencies explicitly.
-    sudo apt-get install -qq curl cppcheck ${APT_DEPENDENCIES}
+    if `test ${TRAVIS_OS_NAME} = linux`; then
+	# Add additional PPAs
+	for ppa in ${MASTER_PPA}; do
+            sudo add-apt-repository -y ppa:${ppa}
+	done
+	sudo apt-get update -qq
 
-    # Install lcov and related dependencies
-    sudo apt-get install -qq lcov
+	# ...otherwise we install the dependencies explicitly.
+	sudo apt-get install -qq curl cppcheck ${APT_DEPENDENCIES}
+
+	# Install lcov and related dependencies
+	sudo apt-get install -qq lcov
+    fi
+
     gem install coveralls-lcov
 
     # ...if a coverity id is set, get the tools.

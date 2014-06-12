@@ -23,7 +23,7 @@ if [ -d debian ]; then
 	    dput ppa:${PPA_URI} "$build_dir"/export/*_source.changes
 	fi
     fi
-else
+elif `test ${TRAVIS_OS_NAME} = linux`; then
     if [ ! x${DIST} = x ]; then
 	echo "skipping this build"
 	exit 0
@@ -69,12 +69,12 @@ else
 	COVERITY_TARBALL=coverity-${PROJECT_NAME}-${PROJECT_VERSTION}.tgz
 	tar czvf ${COVERITY_TARBALL} cov-int
 	curl -s --form project=${PROJECT_NAME}			\
-	     --form token=${COVERITY_TOKEN}			\
-	     --form email=thomas.moulard@gmail.com		\
-	     --form file=@$build_dir/${COVERITY_TARBALL}	\
-	     --form version=${PROJECT_VERSION}			\
-	     --form description="${PROJECT_NAME} v${PROJECT_VERSION} (Travis upload)" \
-	     http://scan5.coverity.com/cgi-bin/upload.py || true
+	    --form token=${COVERITY_TOKEN}			\
+	    --form email=thomas.moulard@gmail.com		\
+	    --form file=@$build_dir/${COVERITY_TARBALL}	\
+	    --form version=${PROJECT_VERSION}			\
+	    --form description="${PROJECT_NAME} v${PROJECT_VERSION} (Travis upload)" \
+	    http://scan5.coverity.com/cgi-bin/upload.py || true
 	cd $root_dir
     else
 	echo "coverity support is disabled in this build"
