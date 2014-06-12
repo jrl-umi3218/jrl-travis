@@ -135,6 +135,12 @@ else
 
 	# Install lcov and related dependencies
 	sudo apt-get install -qq lcov
+    elif `test ${TRAVIS_OS_NAME} = osx`; then
+	# Update homebrew
+	brew update
+
+	# Install user-specified packages
+	brew install curl cppcheck ${HOMEBREW_DEPENDENCIES}
     fi
 
     gem install coveralls-lcov
