@@ -12,6 +12,10 @@ echo "root_dir: " $root_dir
 echo "build_dir: " $build_dir
 echo "install_dir: " $install_dir
 
+# osx support is still in beta
+if `test x${TRAVIS_OS_NAME} = x`; then
+  export TRAVIS_OS_NAME=linux
+fi
 
 # Shortcuts.
 git_clone="git clone --quiet --recursive"
