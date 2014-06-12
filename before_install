@@ -135,6 +135,9 @@ else
 
 	# Install lcov and related dependencies
 	sudo apt-get install -qq lcov
+
+	# lcov will only be used on linux
+	gem install coveralls-lcov
     elif `test ${TRAVIS_OS_NAME} = osx`; then
 	# Update homebrew
 	brew update
@@ -142,8 +145,6 @@ else
 	# Install user-specified packages
 	brew install cppcheck ${HOMEBREW_DEPENDENCIES}
     fi
-
-    gem install coveralls-lcov
 
     # ...if a coverity id is set, get the tools.
     if `! test x${COVERITY_TOKEN} = x`; then
