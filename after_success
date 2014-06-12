@@ -74,7 +74,7 @@ else
 	     --form file=@$build_dir/${COVERITY_TARBALL}	\
 	     --form version=${PROJECT_VERSION}			\
 	     --form description="${PROJECT_NAME} v${PROJECT_VERSION} (Travis upload)" \
-	     http://scan5.coverity.com/cgi-bin/upload.py
+	     http://scan5.coverity.com/cgi-bin/upload.py || true
 	cd $root_dir
     else
 	echo "coverity support is disabled in this build"
