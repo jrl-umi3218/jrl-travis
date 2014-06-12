@@ -16,7 +16,7 @@ build_package()
 
     # Coverity support
     MAKE_PREFIX=""
-    if `test (x${COVERITY_TOKEN} != x) -a (${TRAVIS_OS_NAME} = linux)`; then
+    if `test x${COVERITY_TOKEN} != x -a ${TRAVIS_OS_NAME} = linux`; then
 	coverity_dir=`find $build_dir -type d -name 'cov-analysis*'`
 	export PATH="$coverity_dir/bin:$PATH"
 	MAKE_PREFIX="cov-build --dir cov-int"
