@@ -166,6 +166,10 @@ else
 	fi
 
     elif `test ${TRAVIS_OS_NAME} = osx`; then
+
+	# Add science-related repos
+	brew tap homebrew/science
+
 	# Update homebrew
 	brew update
 
