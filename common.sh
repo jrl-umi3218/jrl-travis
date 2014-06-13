@@ -14,7 +14,7 @@ echo "install_dir: " $install_dir
 
 # osx support is still in beta
 if `test x${TRAVIS_OS_NAME} = x`; then
-  export TRAVIS_OS_NAME=linux
+    export TRAVIS_OS_NAME=linux
 fi
 
 # Shortcuts.
@@ -34,6 +34,14 @@ fi
 if type "python" > /dev/null; then
     pythonsite_dir=`python -c "import sys, os; print os.sep.join(['lib', 'python' + sys.version[:3], 'site-packages'])"`
     export PYTHONPATH="$install_dir/$pythonsite_dir:$PYTHONPATH"
+fi
+
+if `test ${TRAVIS_OS_NAME} = osx`; then
+    # Since default gcc on osx is just a front-end for LLVM...
+    if `test ${CC}=gcc`; then
+	export CXX=g++-49
+	export CC=gcc-49
+    fi
 fi
 
 # Make cmake verbose.

@@ -173,6 +173,12 @@ else
 	# Update homebrew
 	brew update
 
+	# We need to install the actual GCC
+	if `test ${CC}=gcc-49`; then
+	    brew tap homebrew/versions
+	    brew install gcc49
+	fi
+
 	# Install user-specified packages
 	brew install cmake cppcheck ${HOMEBREW_DEPENDENCIES}
     fi
