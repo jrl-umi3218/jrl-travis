@@ -23,7 +23,7 @@ if [ -d debian ]; then
 	    dput ppa:${PPA_URI} "$build_dir"/export/*_source.changes
 	fi
     fi
-elif `test ${TRAVIS_OS_NAME} = linux`; then
+elif [[ ${TRAVIS_OS_NAME} = linux ]]; then
     if [ ! x${DIST} = x ]; then
 	echo "skipping this build"
 	exit 0

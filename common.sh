@@ -25,7 +25,7 @@ export LD_LIBRARY_PATH="$install_dir/lib:$LD_LIBRARY_PATH"
 export LTDL_LIBRARY_PATH="$install_dir/lib:$LTDL_LIBRARY_PATH"
 export PKG_CONFIG_PATH="$install_dir/lib/pkgconfig:$PKG_CONFIG_PATH"
 
-if `test ${TRAVIS_OS_NAME} = linux`; then
+if [[ ${TRAVIS_OS_NAME} = linux ]]; then
     export LD_LIBRARY_PATH="$install_dir/lib/`dpkg-architecture -qDEB_BUILD_MULTIARCH`:$LD_LIBRARY_PATH"
     export LTDL_LIBRARY_PATH="$install_dir/lib/`dpkg-architecture -qDEB_BUILD_MULTIARCH`:$LTDL_LIBRARY_PATH"
     export PKG_CONFIG_PATH="$install_dir/lib/`dpkg-architecture -qDEB_BUILD_MULTIARCH`/pkgconfig:$PKG_CONFIG_PATH"
@@ -36,13 +36,14 @@ if type "python" > /dev/null; then
     export PYTHONPATH="$install_dir/$pythonsite_dir:$PYTHONPATH"
 fi
 
-if `test ${TRAVIS_OS_NAME} = osx`; then
+# FIXME: compilation is too long
+#if [[ ${TRAVIS_OS_NAME} = osx ]]; then
     # Since default gcc on osx is just a front-end for LLVM...
-    if `test ${CC}=gcc`; then
-	export CXX=g++-49
-	export CC=gcc-49
-    fi
-fi
+    #if [[ ${CC} = gcc ]]; then
+	#export CXX=g++-49
+	#export CC=gcc-49
+    #fi
+#fi
 
 # Make cmake verbose.
 export CMAKE_VERBOSE_MAKEFILE=1
