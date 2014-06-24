@@ -174,7 +174,7 @@ else
 	brew update
 
 	# Install user-specified packages
-	brew install cmake cppcheck ${HOMEBREW_DEPENDENCIES}
+	brew install cppcheck ${HOMEBREW_DEPENDENCIES}
     fi
 
     # and we build directly dependencies from the Git repository
