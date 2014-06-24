@@ -36,14 +36,13 @@ if type "python" > /dev/null; then
     export PYTHONPATH="$install_dir/$pythonsite_dir:$PYTHONPATH"
 fi
 
-# FIXME: compilation is too long
-#if [[ ${TRAVIS_OS_NAME} = osx ]]; then
+if [[ ${TRAVIS_OS_NAME} = osx ]]; then
     # Since default gcc on osx is just a front-end for LLVM...
-    #if [[ ${CC} = gcc ]]; then
-	#export CXX=g++-49
-	#export CC=gcc-49
-    #fi
-#fi
+    if [[ ${CC} = gcc ]]; then
+	export CXX=g++-4.8
+	export CC=gcc-4.8
+    fi
+fi
 
 # Make cmake verbose.
 export CMAKE_VERBOSE_MAKEFILE=1
