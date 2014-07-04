@@ -21,6 +21,10 @@ fi
 git_clone="git clone --quiet --recursive"
 
 # Setup environment variables.
+if [ -d /opt/ros ]; then
+  . /opt/ros/${ROS_DISTRO}/setup.sh
+fi
+
 export LD_LIBRARY_PATH="$install_dir/lib:$LD_LIBRARY_PATH"
 export LTDL_LIBRARY_PATH="$install_dir/lib:$LTDL_LIBRARY_PATH"
 export PKG_CONFIG_PATH="$install_dir/lib/pkgconfig:$PKG_CONFIG_PATH"
