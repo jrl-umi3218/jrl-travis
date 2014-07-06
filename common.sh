@@ -32,7 +32,7 @@ if [[ ${TRAVIS_OS_NAME} = linux ]]; then
 fi
 
 if type "python" > /dev/null; then
-    pythonsite_dir=`python -c "import sys, os; print os.sep.join(['lib', 'python' + sys.version[:3], 'site-packages'])"`
+    pythonsite_dir=`python -c "import sys, os; print(os.sep.join(['lib', 'python' + sys.version[:3], 'site-packages']))"`
     export PYTHONPATH="$install_dir/$pythonsite_dir:$PYTHONPATH"
 fi
 
