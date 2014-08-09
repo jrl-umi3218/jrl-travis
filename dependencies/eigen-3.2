@@ -6,16 +6,18 @@
 
 # Checkout Eigen
 cd "$build_dir"
-wget --quiet "http://bitbucket.org/eigen/eigen/get/3.2.1.tar.gz"
-tar xzf 3.2.1.tar.gz
-cd "$build_dir/eigen-eigen-6b38706d90a9/"
-mkdir -p "$build_dir/eigen-eigen-6b38706d90a9/_build"
-cd "$build_dir/eigen-eigen-6b38706d90a9/_build"
+wget --quiet "http://bitbucket.org/eigen/eigen/get/3.2.2.tar.gz"
+tar xzf 3.2.2.tar.gz
+cd "$build_dir/eigen-eigen-1306d75b4a21/"
+mkdir -p "$build_dir/eigen-eigen-1306d75b4a21/_build"
+cd "$build_dir/eigen-eigen-1306d75b4a21/_build"
+
+# Build, make and install Eigen
 cmake .. -DCMAKE_INSTALL_PREFIX:STRING="$install_dir" \
 	 -Dpkg_config_libdir:STRING="$install_dir/lib"
 make
 make install
 
 # Check install
-pkg-config --modversion "eigen3 >= 3.2.1"
-pkg-config --cflags "eigen3 >= 3.2.1"
+pkg-config --modversion "eigen3 >= 3.2.2"
+pkg-config --cflags "eigen3 >= 3.2.2"
