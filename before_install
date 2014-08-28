@@ -44,6 +44,25 @@ git_clone="git clone --quiet --recursive"
 echo "Environment:"
 env
 
+# catkin_git_dependency
+# --------------------
+#
+catkin_git_dependency()
+{
+    _string=$1
+    git_dep=${_string%%:*}
+    git_dep_branch=${_string##*:}
+    # For ROS packages, the default version is named after the ROS distro.
+    if [ "$git_dep_branch" == "$git_dep" ]; then
+	git_dep_branch="$ROS_DISTRO"
+    fi
+    echo "--> Getting $git_dep (branch $git_dep_branch)"
+    CATKIN_WORKSPACE=$build_dir/..
+    cd $CATKIN_WORKSPACE/src
+    $git_clone -b $git_dep_branch "git://github.com/$git_dep" "$git_dep"
+}
+
+
 # build_git_dependency
 # --------------------
 #
@@ -178,6 +197,12 @@ else
     fi
 
     # and we build directly dependencies from the Git repository
+    if `! test x${ROS_GIT_DEPENDENCIES} = x`; then
+      for package in ${ROS_GIT_DEPENDENCIES}; do
+        catkin_git_dependency "$package"
+      done
+    fi
+
     cd $root_dir
     for package in ${GIT_DEPENDENCIES}; do
 	build_git_dependency "$package"

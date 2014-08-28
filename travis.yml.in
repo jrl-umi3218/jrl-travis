@@ -6,6 +6,9 @@ env:
   - @ENCRYPTED_GNUPG_PASSPHRASE@
   - @APT_DEPENDENCIES@
   - @GIT_DEPENDENCIES@
+  - @ROS_GIT_DEPENDENCIES@
+  - @ROS_DISTRO@
+  - @PARALLEL_JOBS@
   - DEBSIGN_KEYID=5AE5CD75
   matrix: # this section is for the Debian branch only
   - DIST=unstable
