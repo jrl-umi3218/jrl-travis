@@ -162,16 +162,10 @@ else
 
     # checking if it is a ros folder. Taking appropriate measure.
     #The current repository is a package
-    if [ -e package.xml ]; then
+    if  [[ -n $(find .  -maxdepth 2 -name package.xml) ]]; then
       build_catkin_package
     else
-      #The current repository is a stack
-      res=`ls -d ./*/package.xml`
-      if `test 'x${res}' != 'x'`; then
-        build_catkin_package
-      else
-        build_package
-      fi
+      build_package
     fi
 fi
 
