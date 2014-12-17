@@ -4,13 +4,16 @@
 #
 . .travis/common.sh
 
+EIGEN_VERSION=3.2.3
+EIGEN_HASH=36fd1ba04c12
+
 # Checkout Eigen
 cd "$build_dir"
-wget --quiet "http://bitbucket.org/eigen/eigen/get/3.2.2.tar.gz"
-tar xzf 3.2.2.tar.gz
-cd "$build_dir/eigen-eigen-1306d75b4a21/"
-mkdir -p "$build_dir/eigen-eigen-1306d75b4a21/_build"
-cd "$build_dir/eigen-eigen-1306d75b4a21/_build"
+wget --quiet "http://bitbucket.org/eigen/eigen/get/${EIGEN_VERSION}.tar.gz"
+tar xzf ${EIGEN_VERSION}.tar.gz
+cd "$build_dir/eigen-eigen-${EIGEN_HASH}/"
+mkdir -p "$build_dir/eigen-eigen-${EIGEN_HASH}/_build"
+cd "$build_dir/eigen-eigen-${EIGEN_HASH}/_build"
 
 # Build, make and install Eigen
 cmake .. -DCMAKE_INSTALL_PREFIX:STRING="$install_dir" \
@@ -19,5 +22,5 @@ make
 make install
 
 # Check install
-pkg-config --modversion "eigen3 >= 3.2.2"
-pkg-config --cflags "eigen3 >= 3.2.2"
+pkg-config --modversion "eigen3 >= ${EIGEN_VERSION}"
+pkg-config --cflags "eigen3 >= ${EIGEN_VERSION}"
