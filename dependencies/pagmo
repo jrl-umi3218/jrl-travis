@@ -17,6 +17,7 @@ export PKG_CONFIG_PATH="$install_dir/lib/`dpkg-architecture -qDEB_BUILD_MULTIARC
 cd "$build_dir"
 git clone --recursive git://github.com/esa/pagmo
 cd pagmo
+git checkout 1.1.5
 
 # Build PaGMO
 mkdir -p build
