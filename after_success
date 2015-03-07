@@ -95,12 +95,15 @@ elif [[ ${TRAVIS_OS_NAME} = linux ]]; then
 	    fi
 	    git remote set-url origin "${GH_PUSH_URI}"
 
-	    # Update the documentation.
-	    # Retrieve last commit of the gh-pages branch.
-	    git fetch --depth=1 origin gh-pages:gh-pages
+	    # If we are on the master branch:
+	    if [[ ${TRAVIS_BRANCH} = master ]]; then
+		# Update the documentation.
+		# Retrieve last commit of the gh-pages branch.
+		git fetch --depth=1 origin gh-pages:gh-pages
 
-	    cd $build_dir/doc && $root_dir/cmake/github/update-doxygen-doc.sh \
-		-r $root_dir -b $build_dir
+		cd $build_dir/doc && $root_dir/cmake/github/update-doxygen-doc.sh \
+					 -r $root_dir -b $build_dir
+	    fi
 
 	    # Push git note indicating success
 	    cd $root_dir
