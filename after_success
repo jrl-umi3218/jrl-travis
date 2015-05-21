@@ -53,33 +53,6 @@ elif [[ ${TRAVIS_OS_NAME} = linux ]]; then
 	echo "skipping coveralls upload in non-gcc builds"
     fi
 
-    # Coverity support
-    if `! test x${COVERITY_TOKEN} = x`; then
-	cd $build_dir
-	PROJECT_NAME=`basename $root_dir`
-	PROJECT_VERSION=`PKG_CONFIG_PATH="$build_dir" pkg-config --modversion ${PROJECT_NAME}`
-	if `test x${PROJECT_NAME} = x`; then
-	    echo "failed to determine project name"
-	    exit 1
-	fi
-	if `test x${PROJECT_NAME} = x`; then
-	    echo "failed to determine project version"
-	    exit 1
-	fi
-	COVERITY_TARBALL=coverity-${PROJECT_NAME}-${PROJECT_VERSTION}.tgz
-	tar czvf ${COVERITY_TARBALL} cov-int
-	curl -s --form project=${PROJECT_NAME}			\
-	    --form token=${COVERITY_TOKEN}			\
-	    --form email=thomas.moulard@gmail.com		\
-	    --form file=@$build_dir/${COVERITY_TARBALL}	\
-	    --form version=${PROJECT_VERSION}			\
-	    --form description="${PROJECT_NAME} v${PROJECT_VERSION} (Travis upload)" \
-	    http://scan5.coverity.com/cgi-bin/upload.py || true
-	cd $root_dir
-    else
-	echo "coverity support is disabled in this build"
-    fi
-
     # If it's not a fork or a pull request
     if `test x${TRAVIS_REPO_SLUG} = x${GH_REPO} -a ${TRAVIS_PULL_REQUEST} = false`; then
 	# If encrypted username/tokens were not provided
