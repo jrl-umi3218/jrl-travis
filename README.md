@@ -130,7 +130,7 @@ account settings, Applications, Personal Access Token and click on
 to encrypt the environment variable:
 
 ```sh
-$ travis encrypt GH_PUSH_URI=https://<USERNAME>@<YOUR OAUTH TOKEN>:<ORGANIZATION>/<REPO> --add
+$ travis encrypt GH_PUSH_URI=https://<USERNAME>:<YOUR OAUTH TOKEN>@github.com/<ORGANIZATION>/<REPO> --add
 ```
 
 This has to be run in the project root-level directory. Do _not_ copy
