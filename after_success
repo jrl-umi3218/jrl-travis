@@ -59,6 +59,7 @@ elif [[ ${TRAVIS_OS_NAME} = linux ]]; then
 	if `test x${GH_TOKEN} = x -o x${GH_USERNAME} = x`; then
 	    echo "missing username and/or token for GitHub push"
 	else
+	    cd $root_dir
 	    # Set the push capable URL.
 	    #
 	    # Add the possibility to use three variables instead of one to
