@@ -2,7 +2,7 @@
 #
 # Setup Eigen 3.2
 #
-. .travis/common.sh
+. `dirname $0`/../common.sh
 
 EIGEN_VERSION=3.2.7
 EIGEN_HASH=b30b87236a1b
@@ -17,7 +17,7 @@ cd "$build_dir/eigen-eigen-${EIGEN_HASH}/_build"
 
 # Build, make and install Eigen
 cmake .. -DCMAKE_INSTALL_PREFIX:STRING="$install_dir" \
-	 -Dpkg_config_libdir:STRING="$install_dir/lib"
+  -Dpkg_config_libdir:STRING="$install_dir/lib"
 make
 make install
 
