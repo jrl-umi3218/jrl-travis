@@ -20,6 +20,8 @@ else
     else
       export SUDO_CMD=''
     fi
+  else
+    export SUDO_CMD='sudo'
   fi
 fi
 
