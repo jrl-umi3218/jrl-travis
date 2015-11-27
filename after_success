@@ -83,9 +83,17 @@ elif [[ ${CI_OS_NAME} = linux ]]; then
           cd $root_dir
           notes_msg="Successful build.\n----\n\nDependencies commit id:"
           for package in ${GIT_DEPENDENCIES}; do
-            cd $build_dir/$package
+            git_dep=${_string%%;*}
+            git_dep_uri_base=${git_dep%%:*}
+            if [ "$git_dep_uri_base" == "$git_dep" ]; then
+              git_dep_uri="git://github.com/$git_dep"
+            else
+              git_dep_uri=$git_dep
+              git_dep=${git_dep##*:}
+            fi
+            cd $build_dir/$git_dep
             commitid=`git rev-parse HEAD || echo unknown`
-            notes_msg="${notes_msg} $package : $commitid\n"
+            notes_msg="${notes_msg} $git_dep : $commitid\n"
           done
           cd $root_dir
           git fetch --quiet --force origin refs/notes/travis:refs/notes/travis || true

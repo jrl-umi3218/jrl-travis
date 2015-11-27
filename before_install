@@ -62,26 +62,33 @@ catkin_git_dependency()
     $git_clone -b $git_dep_branch "git://github.com/$git_dep" "$git_dep"
 }
 
-
 # build_git_dependency
 # --------------------
 #
 # Build a dependency directly from the Git development tree.
-# First argument: repository's GitHub URL + optional branch
-# For example: "jrl-umi3218/jrl-travis" or "jrl-umi3218/jrl-travis:dev"
+# First argument: repository's GitHub URL or repository's URI + optional branch
+# For example: "jrl-umi3218/jrl-travis" or "jrl-umi3218/jrl-travis;dev"
+# Or: user@host:path/to/repo or git@github.com:organization/repo;branch
 build_git_dependency()
 {
     _string=$1
-    git_dep=${_string%%:*}
-    git_dep_branch=${_string##*:}
+    git_dep=${_string%%;*}
+    git_dep_branch=${_string##*;}
     if [ "$git_dep_branch" == "$git_dep" ]; then
         git_dep_branch="master"
     fi
+    git_dep_uri_base=${git_dep%%:*}
+    if [ "$git_dep_uri_base" == "$git_dep" ]; then
+      git_dep_uri="git://github.com/$git_dep"
+    else
+      git_dep_uri=$git_dep
+      git_dep=${git_dep##*:}
+    fi
     echo "--> Compiling $git_dep (branch $git_dep_branch)"
-    mkdir -p "$build_dir/$git_dep"
     cd "$build_dir"
-    $git_clone -b $git_dep_branch "git://github.com/$git_dep" "$git_dep"
-    cd "$build_dir/$git_dep"
+    mkdir -p "$git_dep"
+    $git_clone -b $git_dep_branch "$git_dep_uri" "$git_dep"
+    cd "$git_dep"
     cmake . -DCMAKE_INSTALL_PREFIX:STRING="$install_dir" \
             -DDISABLE_TESTS:BOOL=ON
     make install || make
