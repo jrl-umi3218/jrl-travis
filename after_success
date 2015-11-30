@@ -74,10 +74,10 @@ update_documentation()
   if [[ ${CI_BRANCH} = master ]]; then
     # Update the documentation.
     # Retrieve last commit of the gh-pages branch.
-    git fetch --depth=1 origin gh-pages:gh-pages
-
-    cd $build_dir/doc && $root_dir/cmake/github/update-doxygen-doc.sh \
-      -r $root_dir -b $build_dir
+    if `git fetch --depth=1 origin gh-pages:gh-pages`; then
+      cd $build_dir/doc && $root_dir/cmake/github/update-doxygen-doc.sh \
+        -r $root_dir -b $build_dir
+    fi
   fi
 }
 
