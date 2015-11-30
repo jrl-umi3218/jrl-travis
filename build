@@ -23,9 +23,7 @@ build_package()
     ${MAKE_PREFIX} make
     make install
 
-    if `test x${ALLOW_TESTSUITE_FAILURE} = x`; then
-      ALLOW_TESTSUITE_FAILURE=false
-    fi
+    ALLOW_TESTSUITE_FAILURE=${ALLOW_TESTSUITE_FAILURE:-false}
     make test || ${ALLOW_TESTSUITE_FAILURE}
 
     cppcheck --quiet --enable=all \
@@ -112,11 +110,8 @@ build_catkin_package()
     CATKIN_WORKSPACE=$build_dir/..
 
     # Limit the number of parallel jobs when running catkin_make
-    if `test x${PARALLEL_JOBS} = x`; then
-      export ROS_PARALLEL_JOBS='-j 1'
-    else
-      export ROS_PARALLEL_JOBS='-j ${PARALLEL_JOBS}'
-    fi
+    PARALLEL_JOBS=${PARALLEL_JOBS:-1}
+    export ROS_PARALLEL_JOBS='-j ${PARALLEL_JOBS}'
 
 
     cd $CATKIN_WORKSPACE
@@ -149,7 +144,6 @@ else
       echo "skipping this build"
       exit 0
     fi
-
     # checking if it is a ros folder. Taking appropriate measure.
     #The current repository is a package
     if  [[ -n $(find .  -maxdepth 2 -name package.xml) ]]; then
