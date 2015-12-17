@@ -6,7 +6,7 @@ if `test x${ROS_DISTRO} = x`; then
   exit 0
 fi
 
-${SUDO_CMD} sh -c 'echo "deb http://packages.ros.org/ros/ubuntu precise main" > /etc/apt/sources.list.d/ros-latest.list'
+${SUDO_CMD} sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -c -s` main" > /etc/apt/sources.list.d/ros-latest.list'
 wget http://packages.ros.org/ros.key -O - | ${SUDO_CMD} apt-key add -
 ${SUDO_CMD} apt-get update
 
