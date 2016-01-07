@@ -121,7 +121,9 @@ elif [[ ${CI_OS_NAME} = linux ]]; then
     generate_coverage_data
     # If it's not a fork or a pull request
     if `test x${CI_REPO_SLUG} = x${GH_REPO} -a ${CI_PULL_REQUEST} = false`; then
+      set +e
       set_push_uri
+      set -e
       if [ $? -eq 0 ]; then
         update_documentation
         push_note
