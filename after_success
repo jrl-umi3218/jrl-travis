@@ -59,12 +59,14 @@ set_push_uri()
   # If encrypted username/tokens were not provided
   elif `test x${GH_TOKEN} = x -o x${GH_USERNAME} = x`; then
       echo "missing username and/or token for GitHub push"
-      return 1
+      export GH_PUSH_URI=""
   else
     export GH_PUSH_URI=https://${GH_USERNAME}:${GH_TOKEN}@github.com/${GH_REPO}
   fi
-  cd $root_dir
-  git remote set-url origin "${GH_PUSH_URI}"
+  if `test x${GH_PUSH_URI} != x`; then
+    cd $root_dir
+    git remote set-url origin "${GH_PUSH_URI}"
+  fi
   return 0
 }
 
@@ -121,10 +123,8 @@ elif [[ ${CI_OS_NAME} = linux ]]; then
     generate_coverage_data
     # If it's not a fork or a pull request
     if `test x${CI_REPO_SLUG} = x${GH_REPO} -a ${CI_PULL_REQUEST} = false`; then
-      set +e
       set_push_uri
-      set -e
-      if [ $? -eq 0 ]; then
+      if `test x${GH_PUSH_URI} != x`; then
         update_documentation
         push_note
       fi
