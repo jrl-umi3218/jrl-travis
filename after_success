@@ -90,14 +90,7 @@ push_note()
   HEAD=`git rev-parse HEAD`
   notes_msg="Successful build.\n----\n\nDependencies commit id:"
   for package in ${GIT_DEPENDENCIES}; do
-    git_dep=${_string%%;*}
-    git_dep_uri_base=${git_dep%%:*}
-    if [ "$git_dep_uri_base" == "$git_dep" ]; then
-      git_dep_uri="git://github.com/$git_dep"
-    else
-      git_dep_uri=$git_dep
-      git_dep=${git_dep##*:}
-    fi
+    git_dependency_parsing $package
     cd $build_dir/$git_dep
     commitid=`git rev-parse HEAD || echo unknown`
     notes_msg="${notes_msg} $git_dep : $commitid\n"
@@ -105,7 +98,7 @@ push_note()
   cd $root_dir
   git fetch --quiet --force origin refs/notes/jrl-ci:refs/notes/jrl-ci || true
   git notes --ref=jrl-ci add -f -m "$(echo "${notes_msg}")" $HEAD
-  git push origin refs/notes/travis --force
+  git push origin refs/notes/jrl-ci --force
 }
 
 #########################
