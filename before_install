@@ -175,7 +175,7 @@ install_dependencies()
   for package in ${ROS_GIT_DEPENDENCIES}; do
     catkin_git_dependency "$package"
   done
-  if `test x${ROS_GIT_DEPENDENCIES} != x`; then
+  if `test "x${ROS_GIT_DEPENDENCIES}" != x`; then
     catkin_build_workspace
   fi
 

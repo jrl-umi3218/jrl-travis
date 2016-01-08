@@ -111,7 +111,7 @@ build_catkin_package()
 
     # Limit the number of parallel jobs when running catkin_make
     PARALLEL_JOBS=${PARALLEL_JOBS:-1}
-    export ROS_PARALLEL_JOBS='-j ${PARALLEL_JOBS}'
+    export ROS_PARALLEL_JOBS="-j ${PARALLEL_JOBS}"
 
 
     cd $CATKIN_WORKSPACE
