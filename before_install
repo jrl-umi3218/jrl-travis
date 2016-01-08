@@ -129,8 +129,8 @@ catkin_build_workspace()
 #
 # Build a dependency directly from the Git development tree.
 # First argument: repository's GitHub URL or repository's URI + optional branch
-# For example: "jrl-umi3218/jrl-travis" or "jrl-umi3218/jrl-travis;dev"
-# Or: user@host:path/to/repo or git@github.com:organization/repo;branch
+# For example: "jrl-umi3218/jrl-travis" or "jrl-umi3218/jrl-travis#dev"
+# Or: user@host:path/to/repo or git@github.com:organization/repo#branch
 build_git_dependency()
 {
   git_dependency_parsing $1
