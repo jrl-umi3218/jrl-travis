@@ -24,9 +24,7 @@ else
 fi
 . /opt/ros/${ROS_DISTRO}/setup.sh
 
-# workspace
-CATKIN_WORKSPACE=$build_dir/..
-ln -s $root_dir/.. $CATKIN_WORKSPACE/src
-cd $CATKIN_WORKSPACE/src
-catkin_init_workspace
-
+# Dependencies workspace
+CATKIN_DEP_WORKSPACE=/tmp/_ci/catkin_dep_ws
+mkdir -p $CATKIN_DEP_WORKSPACE/src
+cd $CATKIN_DEP_WORKSPACE/src

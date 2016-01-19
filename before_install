@@ -109,8 +109,8 @@ catkin_git_dependency()
 {
   git_dependency_parsing $1 $ROS_DISTRO
   echo "--> Getting $git_dep (branch $git_dep_branch)"
-  CATKIN_WORKSPACE=$build_dir/..
-  cd $CATKIN_WORKSPACE/src
+  CATKIN_DEP_WORKSPACE=/tmp/_ci/catkin_dep_ws
+  cd $CATKIN_DEP_WORKSPACE/src
   $git_clone -b $git_dep_branch "$git_dep_uri" "$git_dep"
 }
 
@@ -120,7 +120,8 @@ catkin_git_dependency()
 # Build catkin workspace
 catkin_build_workspace()
 {
-  cd $CATKIN_WORKSPACE
+  CATKIN_DEP_WORKSPACE=/tmp/_ci/catkin_dep_ws
+  cd $CATKIN_DEP_WORKSPACE
   catkin_make
 }
 
