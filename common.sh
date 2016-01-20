@@ -46,6 +46,47 @@ case "$BASH_VERSION" in
         ;;
 esac
 
+########################################
+#        -- GLOBAL UTILITIES --        #
+########################################
+
+# git_dependency_parsing
+# ----------------------
+#
+# From an entry in GIT_DEPENDENCIES variable set git_dep, git_dep_uri and
+# git_dep_branch in the environment
+# For example given the input "jrl-umi3218/jrl-travis" the following variables
+# are defined in the environment:
+# - git_dep jrl-umi3218/jrl-travis
+# - git_dep_uri git://github.com/jrl-umi3218/jrl-traviss
+# - git_dep_branch master
+# Or, given the input git@github.com:jrl-umi3218/jrl-travis#thebranch
+# - git_dep jrl-umi3218/jrl-travis
+# - git_dep_uri git@github.com:jrl-umi3218/jrl-travis
+# - git_dep_branch thebranch
+# The second (optional) argument allows to defined the default branch (defaults
+# to master)
+git_dependency_parsing()
+{
+  _input=$1
+  export git_dep=${_input%%#*}
+  export git_dep_branch=${_input##*#}
+  if [ "$git_dep_branch" == "$git_dep" ]; then
+    if [ -e "$2" ]; then
+      export git_dep_branch=$2
+    else
+      export git_dep_branch="master"
+    fi
+  fi
+  git_dep_uri_base=${git_dep%%:*}
+  if [ "$git_dep_uri_base" == "$git_dep" ]; then
+    export git_dep_uri="git://github.com/$git_dep"
+  else
+    export git_dep_uri=$git_dep
+    export git_dep=${git_dep##*:}
+  fi
+}
+
 
 ########################################
 #    -- ENVIRONMENT MANIPULATION --    #

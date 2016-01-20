@@ -102,19 +102,27 @@ setup_pbuilder()
 # catkin_git_dependency
 # --------------------
 #
+# Clone catkin package into the workspace
+# See arguments of build_git_dependency
+# Branch defaults to $ROS_DISTRO instead of master
 catkin_git_dependency()
 {
-    _string=$1
-    git_dep=${_string%%:*}
-    git_dep_branch=${_string##*:}
-    # For ROS packages, the default version is named after the ROS distro.
-    if [ "$git_dep_branch" == "$git_dep" ]; then
-        git_dep_branch="$ROS_DISTRO"
-    fi
-    echo "--> Getting $git_dep (branch $git_dep_branch)"
-    CATKIN_WORKSPACE=$build_dir/..
-    cd $CATKIN_WORKSPACE/src
-    $git_clone -b $git_dep_branch "git://github.com/$git_dep" "$git_dep"
+  git_dependency_parsing $1 $ROS_DISTRO
+  echo "--> Getting $git_dep (branch $git_dep_branch)"
+  CATKIN_DEP_WORKSPACE=/tmp/_ci/catkin_dep_ws
+  cd $CATKIN_DEP_WORKSPACE/src
+  $git_clone -b $git_dep_branch "$git_dep_uri" "$git_dep"
+}
+
+# catkin_build_workspace
+# ----------------------
+#
+# Build catkin workspace
+catkin_build_workspace()
+{
+  CATKIN_DEP_WORKSPACE=/tmp/_ci/catkin_dep_ws
+  cd $CATKIN_DEP_WORKSPACE
+  catkin_make
 }
 
 # build_git_dependency
@@ -122,31 +130,19 @@ catkin_git_dependency()
 #
 # Build a dependency directly from the Git development tree.
 # First argument: repository's GitHub URL or repository's URI + optional branch
-# For example: "jrl-umi3218/jrl-travis" or "jrl-umi3218/jrl-travis;dev"
-# Or: user@host:path/to/repo or git@github.com:organization/repo;branch
+# For example: "jrl-umi3218/jrl-travis" or "jrl-umi3218/jrl-travis#dev"
+# Or: user@host:path/to/repo or git@github.com:organization/repo#branch
 build_git_dependency()
 {
-    _string=$1
-    git_dep=${_string%%;*}
-    git_dep_branch=${_string##*;}
-    if [ "$git_dep_branch" == "$git_dep" ]; then
-        git_dep_branch="master"
-    fi
-    git_dep_uri_base=${git_dep%%:*}
-    if [ "$git_dep_uri_base" == "$git_dep" ]; then
-      git_dep_uri="git://github.com/$git_dep"
-    else
-      git_dep_uri=$git_dep
-      git_dep=${git_dep##*:}
-    fi
-    echo "--> Compiling $git_dep (branch $git_dep_branch)"
-    cd "$build_dir"
-    mkdir -p "$git_dep"
-    $git_clone -b $git_dep_branch "$git_dep_uri" "$git_dep"
-    cd "$git_dep"
-    cmake . -DCMAKE_INSTALL_PREFIX:STRING="$install_dir" \
-            -DDISABLE_TESTS:BOOL=ON
-    make install || make
+  git_dependency_parsing $1
+  echo "--> Compiling $git_dep (branch $git_dep_branch)"
+  cd "$build_dir"
+  mkdir -p "$git_dep"
+  $git_clone -b $git_dep_branch "$git_dep_uri" "$git_dep"
+  cd "$git_dep"
+  cmake . -DCMAKE_INSTALL_PREFIX:STRING="$install_dir" \
+          -DDISABLE_TESTS:BOOL=ON
+  make install || make
 }
 
 _osx_install_dependencies()
@@ -180,6 +176,9 @@ install_dependencies()
   for package in ${ROS_GIT_DEPENDENCIES}; do
     catkin_git_dependency "$package"
   done
+  if `test "x${ROS_GIT_DEPENDENCIES}" != x`; then
+    catkin_build_workspace
+  fi
 
   for package in ${GIT_DEPENDENCIES}; do
     build_git_dependency "$package"
