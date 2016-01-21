@@ -141,7 +141,7 @@ build_git_dependency()
   $git_clone -b $git_dep_branch "$git_dep_uri" "$git_dep"
   cd "$git_dep"
   cmake . -DCMAKE_INSTALL_PREFIX:STRING="$install_dir" \
-          -DDISABLE_TESTS:BOOL=ON
+          -DDISABLE_TESTS:BOOL=ON ${CMAKE_ADDITIONAL_OPTIONS}
   make install || make
 }
 
