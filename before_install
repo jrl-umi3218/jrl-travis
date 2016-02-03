@@ -159,7 +159,15 @@ _linux_install_dependencies()
   done
   ${SUDO_CMD} apt-get update -qq
 
-  ${SUDO_CMD} apt-get install -qq curl cppcheck lcov ${APT_DEPENDENCIES}
+  ${SUDO_CMD} apt-get install -qq curl cppcheck ${APT_DEPENDENCIES}
+
+  # Install lcov from github 
+  cd "$build_dir"
+  wget https://github.com/linux-test-project/lcov/releases/download/v1.12/lcov-1.12.tar.gz
+  tar zxvf lcov-1.12.tar.gz
+  cd lcov-1.12
+  # Reset lcov to release 1.12
+  ${SUDO_CMD} make install
 
   gem install coveralls-lcov
 }
