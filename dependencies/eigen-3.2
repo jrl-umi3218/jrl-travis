@@ -17,7 +17,6 @@ cd "$build_dir/eigen-eigen-${EIGEN_HASH}/_build"
 
 # Build, make and install Eigen
 cmake .. -DCMAKE_INSTALL_PREFIX:STRING="$install_dir" \
-  -Dpkg_config_libdir:STRING="$install_dir/lib" \
   -DEIGEN_INCLUDE_INSTALL_DIR:STRING="${install_dir}/include/eigen3"
 make
 make install
