@@ -5,7 +5,7 @@
 . `dirname $0`/../common.sh
 
 # Install dependencies
-${SUDO_CMD} apt-get update
+${SUDO_CMD} apt-get update -qq
 ${SUDO_CMD} apt-get install -qq libblas-dev liblapack-dev libmumps-seq-dev gfortran
 
 IPOPT_VERSION=3.12.4
