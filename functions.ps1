@@ -105,3 +105,15 @@ function build_project
   msbuild INSTALL.vcxproj
   $Env:Path = $Env:Path -replace "dummy","Git"
 }
+
+function test_project
+{
+  cd %PROJECT_SOURCE_DIR%/build
+  ctest -N
+  ctest --build-config Release --exclude-regex example
+  if ($lastexitcode -ne 0)
+  {
+    type Testing/Temporary/LastTest.log
+    exit $lastexitcode
+  }
+}
