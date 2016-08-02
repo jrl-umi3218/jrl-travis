@@ -227,6 +227,15 @@ setup_ci_env
 export CMAKE_VERBOSE_MAKEFILE=1
 export CTEST_OUTPUT_ON_FAILURE=1
 
+# Add default DO_*_ON_BRANCH if needed
+if [ -z ${DO_COVERAGE_ON_BRANCH+} ]; then
+  export DO_COVERAGE_ON_BRANCH=${CI_BRANCH}
+fi
+
+if [ -z ${DO_CPPCHECK_ON_BRANCH+} ]; then
+  export DO_CPPCHECK_ON_BRANCH=${CI_BRANCH}
+fi
+
 # Create layout.
 mkdir -p "$build_dir"
 mkdir -p "$install_dir"
