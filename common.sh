@@ -228,11 +228,11 @@ export CMAKE_VERBOSE_MAKEFILE=1
 export CTEST_OUTPUT_ON_FAILURE=1
 
 # Add default DO_*_ON_BRANCH if needed
-if [ -z ${DO_COVERAGE_ON_BRANCH+} ]; then
+if [ -z ${DO_COVERAGE_ON_BRANCH+x} ]; then
   export DO_COVERAGE_ON_BRANCH=${CI_BRANCH}
 fi
 
-if [ -z ${DO_CPPCHECK_ON_BRANCH+} ]; then
+if [ -z ${DO_CPPCHECK_ON_BRANCH+x} ]; then
   export DO_CPPCHECK_ON_BRANCH=${CI_BRANCH}
 fi
 
