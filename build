@@ -16,7 +16,7 @@ build_package()
 
     cd "$build_dir"
 
-    if [[ ";${DO_COVERAGE_ON_BRANCH};" == *";${TRAVIS_BRANCH};"* ]]; then
+    if [[ ";${DO_COVERAGE_ON_BRANCH};" == *";${CI_BRANCH};"* ]]; then
       cmake "$root_dir" -DCMAKE_INSTALL_PREFIX="$install_dir"	\
         -DCMAKE_CXX_FLAGS="--coverage"				\
         -DCMAKE_EXE_LINKER_FLAGS="--coverage"			\
@@ -33,7 +33,7 @@ build_package()
     ALLOW_TESTSUITE_FAILURE=${ALLOW_TESTSUITE_FAILURE:-false}
     make test || ${ALLOW_TESTSUITE_FAILURE}
 
-    if [[ ";${DO_CPPCHECK_ON_BRANCH};" == *";${TRAVIS_BRANCH};"* ]]; then
+    if [[ ";${DO_CPPCHECK_ON_BRANCH};" == *";${CI_BRANCH};"* ]]; then
       cppcheck --quiet --enable=all \
         -I $root_dir/src -I $root_dir/tests -I $root_dir/include \
         -I $root_dir/tests/shared-tests \
