@@ -15,11 +15,18 @@ build_package()
     echo "--> Building package..."
 
     cd "$build_dir"
-    cmake "$root_dir" -DCMAKE_INSTALL_PREFIX="$install_dir"	\
-      -DCMAKE_CXX_FLAGS="--coverage"				\
-      -DCMAKE_EXE_LINKER_FLAGS="--coverage"			\
-      -DCMAKE_MODULE_LINKER_FLAGS="--coverage"		\
-      ${CMAKE_ADDITIONAL_OPTIONS}
+
+    if [[ ";${DO_COVERAGE_ON_BRANCH};" == *";${TRAVIS_BRANCH};"* ]]; then
+      cmake "$root_dir" -DCMAKE_INSTALL_PREFIX="$install_dir"	\
+        -DCMAKE_CXX_FLAGS="--coverage"				\
+        -DCMAKE_EXE_LINKER_FLAGS="--coverage"			\
+        -DCMAKE_MODULE_LINKER_FLAGS="--coverage"		\
+        ${CMAKE_ADDITIONAL_OPTIONS}
+    else
+      cmake "$root_dir" -DCMAKE_INSTALL_PREFIX="$install_dir"	\
+        ${CMAKE_ADDITIONAL_OPTIONS}
+    fi
+
     ${MAKE_PREFIX} make
     make install
 
