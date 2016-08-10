@@ -62,7 +62,7 @@ function install_choco_dependencies
 {
   ForEach($choco_dep in $Env:CHOCO_DEPENDENCIES.split(' '))
   {
-    choco install $choco_dep
+    choco install $choco_dep -y
   }
 }
 
