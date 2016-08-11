@@ -75,13 +75,16 @@ function install_git_dependencies
     git clone -b "$git_dep_branch" "$git_dep_uri" "$git_dep"
     cd $git_dep
     git submodule update --init
+    if ($lastexitcode -ne 0){ exit $lastexitcode }
     md build
     cd build
     # For projects that use cmake_add_subfortran directory this removes sh.exe
     # from the path
     $Env:Path = $Env:Path -replace "Git","dummy"
     cmake ../ -G "Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX="${Env:CMAKE_INSTALL_PREFIX}" -DPYTHON_BINDING=OFF -DMINGW_GFORTRAN="$env:MINGW_GFORTRAN"
+    if ($lastexitcode -ne 0){ exit $lastexitcode }
     msbuild INSTALL.vcxproj
+    if ($lastexitcode -ne 0){ exit $lastexitcode }
     # Reverse our dirty work
     $Env:Path = $Env:Path -replace "dummy","Git"
   }
@@ -97,12 +100,15 @@ function build_project
 {
   cd $Env:PROJECT_SOURCE_DIR
   git submodule update --init
+  if ($lastexitcode -ne 0){ exit $lastexitcode }
   md build
   cd build
   # See comment in dependencies regarding $Env:Path manipulation
   $Env:Path = $Env:Path -replace "Git","dummy"
   cmake ../ -G "Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX="${Env:CMAKE_INSTALL_PREFIX}" -DPYTHON_BINDING=OFF -DMINGW_GFORTRAN="$env:MINGW_GFORTRAN"
+  if ($lastexitcode -ne 0){ exit $lastexitcode }
   msbuild INSTALL.vcxproj
+  if ($lastexitcode -ne 0){ exit $lastexitcode }
   $Env:Path = $Env:Path -replace "dummy","Git"
 }
 
