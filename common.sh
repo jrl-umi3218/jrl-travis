@@ -188,6 +188,10 @@ _setup_osx_env()
     export CXX=g++-4.8
     export CC=gcc-4.8
   fi
+
+  export DYLD_LIBRARY_PATH="$install_dir/lib:$DYLD_LIBRARY_PATH"
+  export LTDL_LIBRARY_PATH="$install_dir/lib:$LTDL_LIBRARY_PATH"
+  export PKG_CONFIG_PATH="$install_dir/lib/pkgconfig:$PKG_CONFIG_PATH"
 }
 
 # setup_ci_env
