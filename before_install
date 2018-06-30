@@ -22,8 +22,6 @@ _linux_setup_package_source()
 
 _osx_setup_package_source()
 {
-  # Add science-related repos
-  brew tap homebrew/science
   # Update homebrew
   brew update
 }
