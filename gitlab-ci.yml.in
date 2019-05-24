@@ -1,11 +1,12 @@
 variables:
   CI_OS_NAME: @CI_OS_NAME@
   CI_TOOL: gitlab-ci
+  CI_WIKI: @CI_WIKI@ # pushable git url for the wiki
   APT_DEPENDENCIES: @APT_DEPENDENCIES@
   GIT_DEPENDENCIES: @GIT_DEPENDENCIES@
-	ROS_GIT_DEPENDENCIES: @ROS_GIT_DEPENDENCIES@
-	ROS_DISTRO: @ROS_DISTRO@
-	PARALLEL_JOBS: @PARALLEL_JOBS@
+  ROS_GIT_DEPENDENCIES: @ROS_GIT_DEPENDENCIES@
+  ROS_DISTRO: @ROS_DISTRO@
+  PARALLEL_JOBS: @PARALLEL_JOBS@
 
 # Secured variable are stored in the project
 # See: http://doc.gitlab.com/ci/variables/README.html
@@ -22,6 +23,7 @@ build_gcc:
   stage: build
   script:
     - ./.jrl-ci/run build
+    - export CI_UPDATE_WIKI=true
     - ./.jrl-ci/run after_success
   tags:
     - GCC

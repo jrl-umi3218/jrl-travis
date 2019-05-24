@@ -169,7 +169,9 @@ _linux_install_dependencies()
   # Reset lcov to release 1.12
   ${SUDO_CMD} make install
 
-  gem install coveralls-lcov
+  if [[ ${CI_SUPPORT_COVERALLS} = true ]]; then
+    gem install coveralls-lcov
+  fi
 }
 
 install_dependencies()

@@ -99,6 +99,7 @@ _gitlab_setup_ci_vars()
   export CI_REPO_SLUG=`echo ${CI_PROJECT_DIR}|sed -e's@/builds/@@'`
   export CI_BRANCH=${CI_BUILD_REF_NAME}
   export CI_OS_NAME=${CI_OS_NAME:-linux}
+  export CI_SUPPORT_COVERALLS=false
 }
 
 _travis_setup_ci_vars()
@@ -108,6 +109,7 @@ _travis_setup_ci_vars()
   export CI_REPO_SLUG=${TRAVIS_REPO_SLUG}
   export CI_BRANCH=${TRAVIS_BRANCH}
   export CI_OS_NAME=${TRAVIS_OS_NAME:-linux}
+  export CI_SUPPORT_COVERALLS=true
 }
 
 # _setup_ci_vars
@@ -124,6 +126,8 @@ _setup_ci_vars()
   else
     _gitlab_setup_ci_vars
   fi
+
+  export CI_WIKI=${CI_WIKI:-}
 }
 
 # _setup_sudo_cmd
