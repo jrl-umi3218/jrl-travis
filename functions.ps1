@@ -1,3 +1,19 @@
+function set_cmake_generator
+{
+  if($Env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2017")
+  {
+    $Env:CMAKE_GENERATOR = "Visual Studio 15 2017 Win64";
+  }
+  elseif($Env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2015")
+  {
+    $Env:CMAKE_GENERATOR = "Visual Studio 14 2015 Win64";
+  }
+  else
+  {
+    $Env:CMAKE_GENERATOR = "Visual Studio 12 2013 Win64";
+  }
+}
+
 function git_dependency_parsing
 {
   $_input = $args[0].split('#');
@@ -54,6 +70,7 @@ function setup_pkg_config
 
 function setup_build
 {
+  set_cmake_generator
   setup_directories
   setup_pkg_config
 }
@@ -81,7 +98,7 @@ function install_git_dependencies
     # For projects that use cmake_add_subfortran directory this removes sh.exe
     # from the path
     $Env:Path = $Env:Path -replace "Git","dummy"
-    cmake ../ -G "Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX="${Env:CMAKE_INSTALL_PREFIX}" -DMINGW_GFORTRAN="$env:MINGW_GFORTRAN" -DGIT="C:/Program Files/Git/cmd/git.exe" ${Env:CMAKE_ADDITIONAL_OPTIONS}
+    cmake ../ -G $Env:CMAKE_GENERATOR -DCMAKE_INSTALL_PREFIX="${Env:CMAKE_INSTALL_PREFIX}" -DMINGW_GFORTRAN="$env:MINGW_GFORTRAN" -DGIT="C:/Program Files/Git/cmd/git.exe" ${Env:CMAKE_ADDITIONAL_OPTIONS}
 
     if ($lastexitcode -ne 0){ exit $lastexitcode }
     msbuild INSTALL.vcxproj /p:Configuration=${Env:CONFIGURATION}
@@ -106,7 +123,7 @@ function build_project
   cd build
   # See comment in dependencies regarding $Env:Path manipulation
   $Env:Path = $Env:Path -replace "Git","dummy"
-  cmake ../ -G "Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX="${Env:CMAKE_INSTALL_PREFIX}" -DMINGW_GFORTRAN="$env:MINGW_GFORTRAN" -DGIT="C:/Program Files/Git/cmd/git.exe" ${Env:CMAKE_ADDITIONAL_OPTIONS}
+  cmake ../ -G $Env:CMAKE_GENERATOR -DCMAKE_INSTALL_PREFIX="${Env:CMAKE_INSTALL_PREFIX}" -DMINGW_GFORTRAN="$env:MINGW_GFORTRAN" -DGIT="C:/Program Files/Git/cmd/git.exe" ${Env:CMAKE_ADDITIONAL_OPTIONS}
   if ($lastexitcode -ne 0){ exit $lastexitcode }
   msbuild INSTALL.vcxproj /p:Configuration=${Env:CONFIGURATION}
   if ($lastexitcode -ne 0){ exit $lastexitcode }
