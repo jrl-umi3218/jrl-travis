@@ -152,6 +152,10 @@ _setup_ros()
   if [ -f /opt/ros/${ROS_DISTRO}/setup.sh ]; then
     . /opt/ros/${ROS_DISTRO}/setup.sh
   fi
+  CATKIN_DEP_WORKSPACE=/tmp/_ci/catkin_dep_ws
+  if [ -e ${CATKIN_DEP_WORKSPACE}/devel/setup.sh ]; then
+    . ${CATKIN_DEP_WORKSPACE}/devel/setup.sh
+  fi
 }
 
 # _setup_env_vars
@@ -162,7 +166,7 @@ _setup_env_vars()
 {
   export LD_LIBRARY_PATH="$install_dir/lib:$LD_LIBRARY_PATH"
   export LTDL_LIBRARY_PATH="$install_dir/lib:$LTDL_LIBRARY_PATH"
-  export PKG_CONFIG_PATH="$install_dir/lib/pkgconfig:$PKG_CONFIG_PATH"
+  export PKG_CONFIG_PATH="$install_dir/lib/pkgconfig:$install_dir/share/pkgconfig:$PKG_CONFIG_PATH"
   if type "python" > /dev/null; then
     pythonsite_dir=`python -c "import sys, os; print(os.sep.join(['lib', 'python' + sys.version[:3], 'site-packages']))"`
     export PYTHONPATH="$install_dir/$pythonsite_dir:$PYTHONPATH"
@@ -192,6 +196,10 @@ _setup_osx_env()
     export CXX=g++-4.8
     export CC=gcc-4.8
   fi
+
+  export DYLD_LIBRARY_PATH="$install_dir/lib:$DYLD_LIBRARY_PATH"
+  export LTDL_LIBRARY_PATH="$install_dir/lib:$LTDL_LIBRARY_PATH"
+  export PKG_CONFIG_PATH="$install_dir/lib/pkgconfig:$PKG_CONFIG_PATH"
 }
 
 # setup_ci_env
@@ -230,6 +238,15 @@ setup_ci_env
 # Make cmake verbose.
 export CMAKE_VERBOSE_MAKEFILE=1
 export CTEST_OUTPUT_ON_FAILURE=1
+
+# Add default DO_*_ON_BRANCH if needed
+if [ -z ${DO_COVERAGE_ON_BRANCH+x} ]; then
+  export DO_COVERAGE_ON_BRANCH=${CI_BRANCH}
+fi
+
+if [ -z ${DO_CPPCHECK_ON_BRANCH+x} ]; then
+  export DO_CPPCHECK_ON_BRANCH=${CI_BRANCH}
+fi
 
 # Create layout.
 mkdir -p "$build_dir"
