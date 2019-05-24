@@ -1,5 +1,5 @@
 version: 1.0.{build}
-os: Visual Studio 2015
+image: Visual Studio 2015
 clone_folder: C:/devel-src/@PROJECT_NAME@
 # The following lines output the connection parameters for the RDE in AppVeyor
 # at the start of the build. Be advised that this may allow people to tinker
