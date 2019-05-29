@@ -1,5 +1,6 @@
-function set_cmake_generator
+function set_cmake_options
 {
+  # Set CMAKE_GENERATOR according to the build image
   if($Env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2017")
   {
     $Env:CMAKE_GENERATOR = "Visual Studio 15 2017 Win64";
@@ -11,6 +12,11 @@ function set_cmake_generator
   else
   {
     $Env:CMAKE_GENERATOR = "Visual Studio 12 2013 Win64";
+  }
+  # Disable Python bindings in Debug builds
+  if($Env:CONFIGURATION -eq "Debug")
+  {
+    $Env:CMAKE_ADDITIONAL_OPTIONS = "-DPYTHON_BINDING=OFF $Env:CMAKE_ADDITIONAL_OPTIONS";
   }
 }
 
@@ -70,7 +76,7 @@ function setup_pkg_config
 
 function setup_build
 {
-  set_cmake_generator
+  set_cmake_options
   setup_directories
   setup_pkg_config
 }
