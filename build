@@ -172,7 +172,7 @@ else
     fi
     # checking if it is a ros folder. Taking appropriate measure.
     #The current repository is a package
-    if  [[ -n $(find .  -maxdepth 2 -name package.xml) && "${BUILD_WITH_CATKIN_SUPPORT}" = true]]; then
+    if  [[ -n $(find .  -maxdepth 2 -name package.xml) && "${BUILD_WITH_CATKIN_SUPPORT}" = true ]]; then
       build_catkin_package
     else
       build_package
