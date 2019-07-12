@@ -152,6 +152,9 @@ build_catkin_package()
     catkin_lint `ls -d ./src/*/ ./src/*/*/`  || ${ALLOW_CATKINLINT_FAILURE}
 }
 
+if [ -z ${BUILD_WITH_CATKIN_SUPPORT} ]; then # if BUILD_WITH_CATKIN_SUPPORT is not defined, set it to true by default
+  set BUILD_WITH_CATKIN_SUPPORT=true
+fi
 setup_ros_build_environment
 # Realize a normal build in all branches except the one containing a
 # debian/ folder.
@@ -169,7 +172,7 @@ else
     fi
     # checking if it is a ros folder. Taking appropriate measure.
     #The current repository is a package
-    if  [[ -n $(find .  -maxdepth 2 -name package.xml) ]]; then
+    if  [[ -n $(find .  -maxdepth 2 -name package.xml) && "${BUILD_WITH_CATKIN_SUPPORT}" = true]]; then
       build_catkin_package
     else
       build_package
