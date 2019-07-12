@@ -137,7 +137,6 @@ build_catkin_package()
     CATKIN_WORKSPACE=$build_dir/..
     ln -s $root_dir/.. $CATKIN_WORKSPACE/src
     cd $CATKIN_WORKSPACE/src
-    catkin_init_workspace
 
     cd $CATKIN_WORKSPACE
     catkin_make
