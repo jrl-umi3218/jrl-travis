@@ -104,7 +104,7 @@ function install_git_dependencies
     # For projects that use cmake_add_subfortran directory this removes sh.exe
     # from the path
     $Env:Path = $Env:Path -replace "Git","dummy"
-    cmake ../ -G $Env:CMAKE_GENERATOR -DCMAKE_INSTALL_PREFIX="${Env:CMAKE_INSTALL_PREFIX}" -DMINGW_GFORTRAN="$env:MINGW_GFORTRAN" -DGIT="C:/Program Files/Git/cmd/git.exe" ${Env:CMAKE_ADDITIONAL_OPTIONS}
+    cmake ../ -G $Env:CMAKE_GENERATOR -DCMAKE_INSTALL_PREFIX="${Env:CMAKE_INSTALL_PREFIX}" -DMINGW_GFORTRAN="$env:MINGW_GFORTRAN" -DGIT="C:/Program Files/Git/cmd/git.exe" -DBUILD_TESTING=OFF ${Env:CMAKE_ADDITIONAL_OPTIONS}
 
     if ($lastexitcode -ne 0){ exit $lastexitcode }
     msbuild INSTALL.vcxproj /p:Configuration=${Env:CONFIGURATION}
