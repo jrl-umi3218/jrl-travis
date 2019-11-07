@@ -84,7 +84,7 @@ generate_coverage_data()
     # Upload coveralls data.
     if [ x${CC} = xgcc ]; then
       make_coverage
-      upload_coverage
+      upload_coverage_to_coveralls
     else
       echo "skipping coveralls upload in non-gcc builds"
     fi
