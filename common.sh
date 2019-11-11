@@ -248,6 +248,10 @@ if [ -z ${DO_CPPCHECK_ON_BRANCH+x} ]; then
   export DO_CPPCHECK_ON_BRANCH=${CI_BRANCH}
 fi
 
+if [ -z ${DO_DOC_UPDATE+x} ]; then
+  export DO_DOC_UPDATE=true
+fi
+
 # Create layout.
 mkdir -p "$build_dir"
 mkdir -p "$install_dir"
