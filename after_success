@@ -192,7 +192,7 @@ elif [[ ${CI_OS_NAME} = linux ]]; then
     fi
 
     # If it's not a fork or a pull request
-    if `test x${CI_REPO_SLUG} = x${GH_REPO} -a ${CI_PULL_REQUEST} = false`; then
+    if `test x${CI_REPO_SLUG} = x${GH_REPO} -a ${CI_PULL_REQUEST} = false -a $DO_DOC_UPDATE = true`; then
       set_push_uri
       if `test x${GH_PUSH_URI} != x`; then
         update_documentation
