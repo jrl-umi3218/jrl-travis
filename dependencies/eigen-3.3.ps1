@@ -2,9 +2,9 @@ $EIGEN_VERSION="3.3.7"
 $EIGEN_HASH="323c052e1731"
 
 cd $Env:SOURCE_FOLDER
-appveyor DownloadFile "http://bitbucket.org/eigen/eigen/get/$EIGEN_VERSION.zip"
+appveyor DownloadFile "https://github.com/eigenteam/eigen-git-mirror/archive/${EIGEN_VERSION}.zip"
 7z x "${EIGEN_VERSION}.zip" -o"${Env:SOURCE_FOLDER}\eigen" -r
-cd "${Env:SOURCE_FOLDER}\eigen\eigen-eigen-$EIGEN_HASH"
+cd "${Env:SOURCE_FOLDER}\eigen\eigen-git-mirror-${EIGEN_VERSION}"
 md build
 cd build
 

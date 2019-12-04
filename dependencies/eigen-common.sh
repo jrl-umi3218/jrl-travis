@@ -4,16 +4,18 @@
 #
 . `dirname $0`/../common.sh
 
+set -x
+
 EIGEN_VERSION=$1
 EIGEN_HASH=$2
 
 # Checkout Eigen
 cd "$build_dir"
-wget --quiet "http://bitbucket.org/eigen/eigen/get/${EIGEN_VERSION}.tar.gz"
+wget "https://github.com/eigenteam/eigen-git-mirror/archive/${EIGEN_VERSION}.tar.gz"
 tar xzf ${EIGEN_VERSION}.tar.gz
-cd "$build_dir/eigen-eigen-${EIGEN_HASH}/"
-mkdir -p "$build_dir/eigen-eigen-${EIGEN_HASH}/_build"
-cd "$build_dir/eigen-eigen-${EIGEN_HASH}/_build"
+EIGEN_DIR="$build_dir/eigen-git-mirror-${EIGEN_VERSION}/"
+mkdir -p "${EIGEN_DIR}/_build"
+cd "${EIGEN_DIR}/_build"
 
 # Build, make and install Eigen
 cmake .. -DCMAKE_INSTALL_PREFIX:STRING="$install_dir"
